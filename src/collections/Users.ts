@@ -1,9 +1,20 @@
 import type { CollectionConfig } from 'payload'
+import { disableRestApiAccess } from '../hooks/disableRestApiAccess'
+import { setBusinessOnCreate } from '../hooks/setBusinessOnCreate'
 
 export const Users: CollectionConfig = {
   slug: 'users',
   admin: {
     useAsTitle: 'email',
+  },
+  access: {
+    read: disableRestApiAccess,
+    update: disableRestApiAccess,
+    delete: disableRestApiAccess,
+    create: disableRestApiAccess,
+  },
+  hooks: {
+    beforeChange: [setBusinessOnCreate],
   },
   auth: true,
   fields: [

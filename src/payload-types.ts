@@ -97,6 +97,7 @@ export interface Config {
     'contact-submissions': ContactSubmission;
     'selling-price-groups': SellingPriceGroup;
     units: Unit;
+    unit_conversions: UnitConversion;
     warranties: Warranty;
     'subscription-packages': SubscriptionPackage;
     'global-payment-methods': GlobalPaymentMethod;
@@ -192,6 +193,7 @@ export interface Config {
     'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
     'selling-price-groups': SellingPriceGroupsSelect<false> | SellingPriceGroupsSelect<true>;
     units: UnitsSelect<false> | UnitsSelect<true>;
+    unit_conversions: UnitConversionsSelect<false> | UnitConversionsSelect<true>;
     warranties: WarrantiesSelect<false> | WarrantiesSelect<true>;
     'subscription-packages': SubscriptionPackagesSelect<false> | SubscriptionPackagesSelect<true>;
     'global-payment-methods': GlobalPaymentMethodsSelect<false> | GlobalPaymentMethodsSelect<true>;
@@ -395,8 +397,17 @@ export interface BusinessLocation {
  */
 export interface SellingPriceGroup {
   id: number;
+  /**
+   * Name of the price group (e.g., Retail, Wholesale)
+   */
   group_name: string;
+  /**
+   * Description of the price group
+   */
   description?: string | null;
+  /**
+   * Color for UI display (hex format, e.g., #FF5733)
+   */
   color?: string | null;
   business: number | Business;
   updatedAt: string;
@@ -436,20 +447,53 @@ export interface Brand {
  */
 export interface Product {
   id: number;
+  /**
+   * Product name
+   */
   name: string;
+  /**
+   * Stock Keeping Unit (auto-generated if empty)
+   */
+  sku: string;
   business?: (number | null) | Business;
+  /**
+   * Product image URL
+   */
   image_url?: string | null;
-  sku?: string | null;
+  /**
+   * Barcode type (EAN-13, UPC-A, etc.)
+   */
   barcode_type?: string | null;
   status?: ('active' | 'inactive') | null;
+  /**
+   * Product description
+   */
   description?: string | null;
+  /**
+   * Track by serial number or IMEI
+   */
   is_serial_imei?: boolean | null;
+  /**
+   * Unit of measurement
+   */
   units?: (number | null) | Unit;
+  /**
+   * Product warranty
+   */
   warranties?: (number | null) | Warranty;
   brand?: (number | null) | Brand;
   category?: (number | null) | Category;
+  /**
+   * Enable stock management
+   */
   manage_stock?: boolean | null;
+  /**
+   * Low stock alert threshold
+   */
   alert_quantity?: number | null;
+  /**
+   * Track expiry date
+   */
   expiry_date?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -460,10 +504,24 @@ export interface Product {
  */
 export interface Unit {
   id: number;
+  /**
+   * Full name (e.g., Kilogram)
+   */
   name: string;
+  /**
+   * Abbreviation (e.g., kg)
+   */
   short_name: string;
+  /**
+   * Category of measurement
+   */
+  unit_group: 'MASS' | 'LENGTH' | 'VOLUME' | 'AREA' | 'COUNT' | 'TIME' | 'OTHER';
+  /**
+   * Is this the base unit for its group? (e.g., kg for MASS)
+   */
+  is_base_unit?: boolean | null;
   allow_decimal?: boolean | null;
-  business?: (number | null) | Business;
+  business: number | Business;
   updatedAt: string;
   createdAt: string;
 }
@@ -473,11 +531,23 @@ export interface Unit {
  */
 export interface Warranty {
   id: number;
+  /**
+   * Warranty name (e.g., "1 Year Standard")
+   */
   name: string;
+  /**
+   * Warranty terms and conditions
+   */
   description?: string | null;
+  /**
+   * Duration value (e.g., 12)
+   */
   duration: number;
+  /**
+   * Duration unit
+   */
   duration_type?: ('days' | 'months' | 'years') | null;
-  business?: (number | null) | Business;
+  business: number | Business;
   updatedAt: string;
   createdAt: string;
 }
@@ -1034,6 +1104,28 @@ export interface ContactSubmission {
   response_message?: string | null;
   response_sent_at?: string | null;
   response_sent_by?: (number | null) | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "unit_conversions".
+ */
+export interface UnitConversion {
+  id: number;
+  /**
+   * Source unit (e.g., Kilogram)
+   */
+  from_unit: number | Unit;
+  /**
+   * Target unit (e.g., Gram)
+   */
+  to_unit: number | Unit;
+  /**
+   * Conversion factor: 1 from_unit = X to_unit (e.g., 1 kg = 1000 g, factor = 1000)
+   */
+  factor: number;
+  business: number | Business;
   updatedAt: string;
   createdAt: string;
 }
@@ -2331,6 +2423,10 @@ export interface PayloadLockedDocument {
         value: number | Unit;
       } | null)
     | ({
+        relationTo: 'unit_conversions';
+        value: number | UnitConversion;
+      } | null)
+    | ({
         relationTo: 'warranties';
         value: number | Warranty;
       } | null)
@@ -2732,9 +2828,9 @@ export interface BrandsSelect<T extends boolean = true> {
  */
 export interface ProductsSelect<T extends boolean = true> {
   name?: T;
+  sku?: T;
   business?: T;
   image_url?: T;
-  sku?: T;
   barcode_type?: T;
   status?: T;
   description?: T;
@@ -3165,7 +3261,21 @@ export interface SellingPriceGroupsSelect<T extends boolean = true> {
 export interface UnitsSelect<T extends boolean = true> {
   name?: T;
   short_name?: T;
+  unit_group?: T;
+  is_base_unit?: T;
   allow_decimal?: T;
+  business?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "unit_conversions_select".
+ */
+export interface UnitConversionsSelect<T extends boolean = true> {
+  from_unit?: T;
+  to_unit?: T;
+  factor?: T;
   business?: T;
   updatedAt?: T;
   createdAt?: T;

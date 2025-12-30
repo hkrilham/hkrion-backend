@@ -1,17 +1,33 @@
 import type { CollectionConfig } from 'payload'
-import { filterByBusiness } from '../hooks/filterByBusiness'
+import { disableRestApiAccess } from '../hooks/disableRestApiAccess'
 import { setBusinessOnCreate } from '../hooks/setBusinessOnCreate'
+import {
+  listCategories,
+  getCategoryTree,
+  getCategory,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+} from '../endpoints/category'
 
 export const Categories: CollectionConfig = {
   slug: 'categories',
   admin: {
     useAsTitle: 'category_name',
   },
+  endpoints: [
+    { path: '/list', method: 'get', handler: listCategories },
+    { path: '/tree', method: 'get', handler: getCategoryTree },
+    { path: '/create', method: 'post', handler: createCategory },
+    { path: '/:id', method: 'get', handler: getCategory },
+    { path: '/:id', method: 'patch', handler: updateCategory },
+    { path: '/:id', method: 'delete', handler: deleteCategory },
+  ],
   access: {
-    read: filterByBusiness,
-    update: filterByBusiness,
-    delete: filterByBusiness,
-    create: ({ req }) => !!req.user,
+    read: disableRestApiAccess,
+    update: disableRestApiAccess,
+    delete: disableRestApiAccess,
+    create: disableRestApiAccess,
   },
   hooks: {
     beforeChange: [setBusinessOnCreate],

@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { filterByBusiness } from '../hooks/filterByBusiness'
+import { disableRestApiAccess } from '../hooks/disableRestApiAccess'
 import { setBusinessOnCreate } from '../hooks/setBusinessOnCreate'
 
 export const Expenses: CollectionConfig = {
@@ -8,10 +8,10 @@ export const Expenses: CollectionConfig = {
     useAsTitle: 'expense_number',
   },
   access: {
-    read: filterByBusiness,
-    update: filterByBusiness,
-    delete: filterByBusiness,
-    create: ({ req }) => !!req.user,
+    read: disableRestApiAccess,
+    update: disableRestApiAccess,
+    delete: disableRestApiAccess,
+    create: disableRestApiAccess,
   },
   hooks: {
     beforeChange: [setBusinessOnCreate],

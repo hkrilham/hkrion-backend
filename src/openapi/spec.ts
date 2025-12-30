@@ -7,30 +7,21 @@ export const openApiSpec: OpenAPIV3_1.Document = {
     description: `
 # HKRiON POS & Inventory Management API
 
-Welcome to the HKRiON API documentation. This API provides complete functionality for:
-
-- 🛒 **Point of Sale (POS)** - Sales, payments, and receipts
-- 📦 **Inventory Management** - Products, stock, and warehouses
-- 👥 **Customer Management** - Contacts, groups, and credit
-- 💰 **Purchase Management** - Suppliers and purchase orders
-- 📊 **Reports & Analytics** - Sales reports, stock value, profit/loss
-- 🏢 **Multi-Business Support** - Complete multi-tenant architecture
+Welcome to the HKRiON API documentation.
 
 ## Authentication
 
-All API endpoints (except login) require authentication using JWT tokens.
+All API endpoints (except registration and login) require authentication using JWT tokens.
 
 ### Getting Started
 
-1. **Login** to get your JWT token
-2. Include the token in the \`Authorization\` header as \`Bearer <token>\`
-3. Or use the HTTP-only cookie set automatically on login
+1. **Register** your business at \`/api/businesses/register\`
+2. **Login** to get your JWT token at \`/api/users/login\`
+3. Include the token in the \`Authorization\` header as \`Bearer <token>\`
 
-## Rate Limits
+## Custom Endpoints
 
-- **Standard**: 1000 requests/minute
-- **Reports**: 100 requests/minute
-- **Bulk Operations**: 50 requests/minute
+This API uses custom endpoints. Default Payload CMS endpoints are disabled.
     `,
     version: '1.0.0',
     contact: {
@@ -55,19 +46,14 @@ All API endpoints (except login) require authentication using JWT tokens.
   ],
   tags: [
     { name: 'Authentication', description: 'User authentication & authorization' },
-    { name: 'Users', description: 'User management' },
-    { name: 'Businesses', description: 'Business account management' },
-    { name: 'Products', description: 'Product catalog management' },
-    { name: 'Categories', description: 'Product categories' },
-    { name: 'Brands', description: 'Product brands' },
-    { name: 'Stock', description: 'Stock & inventory management' },
-    { name: 'Sales', description: 'Sales & POS operations' },
-    { name: 'Purchases', description: 'Purchase order management' },
-    { name: 'Contacts', description: 'Customer & supplier management' },
-    { name: 'Expenses', description: 'Expense tracking' },
-    { name: 'Payments', description: 'Payment methods & transactions' },
-    { name: 'Reports', description: 'Analytics & reports' },
-    { name: 'Settings', description: 'Business settings & configuration' },
+    { name: 'Businesses', description: 'Business registration & management' },
+    { name: 'Brands', description: 'Product brand management' },
+    { name: 'Categories', description: 'Product category management' },
+    { name: 'Units', description: 'Unit of measurement management' },
+    { name: 'Unit Conversions', description: 'Unit conversion system' },
+    { name: 'Warranties', description: 'Product warranty management' },
+    { name: 'Price Groups', description: 'Selling price group management' },
+    { name: 'Products', description: 'Product inventory management' },
   ],
   components: {
     securitySchemes: {
@@ -85,7 +71,6 @@ All API endpoints (except login) require authentication using JWT tokens.
       },
     },
     schemas: {
-      // Common schemas
       Error: {
         type: 'object',
         properties: {
@@ -101,40 +86,6 @@ All API endpoints (except login) require authentication using JWT tokens.
           },
         },
       },
-      PaginatedResponse: {
-        type: 'object',
-        properties: {
-          docs: { type: 'array', items: {} },
-          totalDocs: { type: 'integer' },
-          limit: { type: 'integer' },
-          totalPages: { type: 'integer' },
-          page: { type: 'integer' },
-          pagingCounter: { type: 'integer' },
-          hasPrevPage: { type: 'boolean' },
-          hasNextPage: { type: 'boolean' },
-          prevPage: { type: ['integer', 'null'] },
-          nextPage: { type: ['integer', 'null'] },
-        },
-      },
-
-      // User schemas
-      User: {
-        type: 'object',
-        properties: {
-          id: { type: 'string', format: 'uuid' },
-          email: { type: 'string', format: 'email' },
-          roles: {
-            type: 'array',
-            items: {
-              type: 'string',
-              enum: ['super_admin', 'business_owner', 'manager', 'cashier', 'accountant', 'viewer'],
-            },
-          },
-          business: { $ref: '#/components/schemas/BusinessRef' },
-          createdAt: { type: 'string', format: 'date-time' },
-          updatedAt: { type: 'string', format: 'date-time' },
-        },
-      },
       LoginRequest: {
         type: 'object',
         required: ['email', 'password'],
@@ -146,263 +97,42 @@ All API endpoints (except login) require authentication using JWT tokens.
       LoginResponse: {
         type: 'object',
         properties: {
-          user: { $ref: '#/components/schemas/User' },
+          user: {
+            type: 'object',
+            properties: {
+              id: { type: 'string', format: 'uuid' },
+              email: { type: 'string', format: 'email' },
+              roles: { type: 'array', items: { type: 'string' } },
+            },
+          },
           token: { type: 'string' },
           exp: { type: 'integer', description: 'Token expiration timestamp' },
         },
       },
-
-      // Business schemas
-      Business: {
+      BusinessRegisterRequest: {
         type: 'object',
+        required: ['businessName', 'email', 'password', 'country', 'city'],
         properties: {
-          id: { type: 'string', format: 'uuid' },
-          business_name: { type: 'string', example: 'My Shop' },
-          business_contact: { type: 'string' },
-          country: { type: 'string' },
-          city: { type: 'string' },
-          state: { type: 'string' },
-          zip_code: { type: 'string' },
-          currency: { type: 'string', example: 'USD' },
+          businessName: { type: 'string', example: 'My Awesome Business' },
+          email: { type: 'string', format: 'email', example: 'admin@business.com' },
+          password: { type: 'string', format: 'password', example: 'strongpassword' },
+          firstName: { type: 'string', example: 'Admin' },
+          country: { type: 'string', example: 'India' },
+          city: { type: 'string', example: 'Chennai' },
+          state: { type: 'string', example: 'Tamil Nadu' },
+          zipCode: { type: 'string', example: '600001' },
+          landmark: { type: 'string' },
+          currency: { type: 'string', example: 'INR' },
           timezone: { type: 'string', example: 'Asia/Kolkata' },
-          logo_url: { type: 'string', format: 'uri' },
-          createdAt: { type: 'string', format: 'date-time' },
-          updatedAt: { type: 'string', format: 'date-time' },
         },
       },
-      BusinessRef: {
+      BusinessRegisterResponse: {
         type: 'object',
         properties: {
-          id: { type: 'string', format: 'uuid' },
-          business_name: { type: 'string' },
+          message: { type: 'string' },
+          businessId: { type: 'string', format: 'uuid' },
+          userId: { type: 'string', format: 'uuid' },
         },
-      },
-
-      // Product schemas
-      Product: {
-        type: 'object',
-        properties: {
-          id: { type: 'string', format: 'uuid' },
-          name: { type: 'string', example: 'iPhone 15 Pro' },
-          sku: { type: 'string', example: 'IP15P-256-BLK' },
-          barcode_type: { type: 'string', enum: ['CODE128', 'CODE39', 'EAN13', 'UPC'] },
-          status: { type: 'string', enum: ['active', 'inactive'] },
-          description: { type: 'string' },
-          image_url: { type: 'string', format: 'uri' },
-          is_serial_imei: { type: 'boolean' },
-          manage_stock: { type: 'boolean' },
-          alert_quantity: { type: 'integer' },
-          expiry_date: { type: 'boolean' },
-          business: { $ref: '#/components/schemas/BusinessRef' },
-          category: { $ref: '#/components/schemas/CategoryRef' },
-          brand: { $ref: '#/components/schemas/BrandRef' },
-          units: { $ref: '#/components/schemas/UnitRef' },
-          warranties: { $ref: '#/components/schemas/WarrantyRef' },
-          createdAt: { type: 'string', format: 'date-time' },
-          updatedAt: { type: 'string', format: 'date-time' },
-        },
-      },
-      ProductCreate: {
-        type: 'object',
-        required: ['name'],
-        properties: {
-          name: { type: 'string', example: 'iPhone 15 Pro' },
-          sku: { type: 'string' },
-          barcode_type: { type: 'string' },
-          status: { type: 'string', enum: ['active', 'inactive'] },
-          description: { type: 'string' },
-          is_serial_imei: { type: 'boolean' },
-          manage_stock: { type: 'boolean' },
-          alert_quantity: { type: 'integer' },
-          category: { type: 'string', format: 'uuid' },
-          brand: { type: 'string', format: 'uuid' },
-          units: { type: 'string', format: 'uuid' },
-        },
-      },
-
-      // Category, Brand, Unit refs
-      CategoryRef: {
-        type: 'object',
-        properties: {
-          id: { type: 'string', format: 'uuid' },
-          category_name: { type: 'string' },
-        },
-      },
-      BrandRef: {
-        type: 'object',
-        properties: {
-          id: { type: 'string', format: 'uuid' },
-          brand_name: { type: 'string' },
-        },
-      },
-      UnitRef: {
-        type: 'object',
-        properties: {
-          id: { type: 'string', format: 'uuid' },
-          name: { type: 'string' },
-        },
-      },
-      WarrantyRef: {
-        type: 'object',
-        properties: {
-          id: { type: 'string', format: 'uuid' },
-          name: { type: 'string' },
-        },
-      },
-
-      // Sale schemas
-      Sale: {
-        type: 'object',
-        properties: {
-          id: { type: 'string', format: 'uuid' },
-          sale_number: { type: 'string', example: 'INV-2024-00001' },
-          transaction_date: { type: 'string', format: 'date-time' },
-          subtotal: { type: 'number', format: 'decimal' },
-          discount: { type: 'number', format: 'decimal' },
-          tax: { type: 'number', format: 'decimal' },
-          shipping: { type: 'number', format: 'decimal' },
-          total: { type: 'number', format: 'decimal' },
-          total_paid: { type: 'number', format: 'decimal' },
-          due_amount: { type: 'number', format: 'decimal' },
-          status: { type: 'string', enum: ['completed', 'pending', 'draft', 'cancelled'] },
-          payment_method: { type: 'string' },
-          is_credit_sale: { type: 'boolean' },
-          business: { $ref: '#/components/schemas/BusinessRef' },
-          customer: { $ref: '#/components/schemas/ContactRef' },
-          business_location: { $ref: '#/components/schemas/LocationRef' },
-          createdAt: { type: 'string', format: 'date-time' },
-        },
-      },
-      SaleCreate: {
-        type: 'object',
-        required: ['transaction_date', 'subtotal', 'total', 'items'],
-        properties: {
-          transaction_date: { type: 'string', format: 'date-time' },
-          customer: { type: 'string', format: 'uuid' },
-          business_location: { type: 'string', format: 'uuid' },
-          subtotal: { type: 'number' },
-          discount: { type: 'number' },
-          tax: { type: 'number' },
-          total: { type: 'number' },
-          payment_method: { type: 'string' },
-          items: {
-            type: 'array',
-            items: { $ref: '#/components/schemas/SaleItemCreate' },
-          },
-        },
-      },
-      SaleItemCreate: {
-        type: 'object',
-        required: ['product', 'quantity', 'unit_price', 'total'],
-        properties: {
-          product: { type: 'string', format: 'uuid' },
-          quantity: { type: 'number' },
-          unit_price: { type: 'number' },
-          discount: { type: 'number' },
-          tax: { type: 'number' },
-          total: { type: 'number' },
-        },
-      },
-
-      // Contact schemas
-      Contact: {
-        type: 'object',
-        properties: {
-          id: { type: 'string', format: 'uuid' },
-          contact_id: { type: 'string', example: 'CUST-001' },
-          contact_type: { type: 'string', enum: ['customer', 'supplier', 'both'] },
-          customer_type: { type: 'string', enum: ['individual', 'business'] },
-          first_name: { type: 'string' },
-          last_name: { type: 'string' },
-          business_name: { type: 'string' },
-          email: { type: 'string', format: 'email' },
-          mobile: { type: 'string' },
-          credit_limit: { type: 'number' },
-          opening_balance: { type: 'number' },
-          total_due_amount: { type: 'number' },
-          is_active: { type: 'boolean' },
-          business: { $ref: '#/components/schemas/BusinessRef' },
-        },
-      },
-      ContactRef: {
-        type: 'object',
-        properties: {
-          id: { type: 'string', format: 'uuid' },
-          first_name: { type: 'string' },
-          last_name: { type: 'string' },
-          mobile: { type: 'string' },
-        },
-      },
-
-      // Location ref
-      LocationRef: {
-        type: 'object',
-        properties: {
-          id: { type: 'string', format: 'uuid' },
-          name: { type: 'string' },
-        },
-      },
-
-      // Stock schemas
-      ProductStockPrice: {
-        type: 'object',
-        properties: {
-          id: { type: 'string', format: 'uuid' },
-          product: { $ref: '#/components/schemas/Product' },
-          unit_price: { type: 'number' },
-          default_selling_price: { type: 'number' },
-          stock: { type: 'number' },
-          sold: { type: 'integer' },
-          status: { type: 'string', enum: ['active', 'inactive'] },
-          business_location: { $ref: '#/components/schemas/LocationRef' },
-          manufacturing_date: { type: 'string', format: 'date' },
-          expiry_date: { type: 'string', format: 'date' },
-        },
-      },
-      StockAdjustment: {
-        type: 'object',
-        required: ['location_id', 'adjustment_type', 'quantity'],
-        properties: {
-          location_id: { type: 'string', format: 'uuid' },
-          adjustment_type: { type: 'string', enum: ['add', 'subtract', 'set'] },
-          quantity: { type: 'number' },
-          reason: { type: 'string' },
-          reference_no: { type: 'string' },
-        },
-      },
-    },
-    parameters: {
-      idParam: {
-        name: 'id',
-        in: 'path',
-        required: true,
-        schema: { type: 'string', format: 'uuid' },
-        description: 'Record ID',
-      },
-      pageParam: {
-        name: 'page',
-        in: 'query',
-        schema: { type: 'integer', default: 1 },
-        description: 'Page number',
-      },
-      limitParam: {
-        name: 'limit',
-        in: 'query',
-        schema: { type: 'integer', default: 10, maximum: 100 },
-        description: 'Items per page',
-      },
-      sortParam: {
-        name: 'sort',
-        in: 'query',
-        schema: { type: 'string' },
-        description: 'Sort field (prefix with - for descending)',
-        example: '-createdAt',
-      },
-      depthParam: {
-        name: 'depth',
-        in: 'query',
-        schema: { type: 'integer', default: 1, maximum: 5 },
-        description: 'Relationship depth to populate',
       },
     },
     responses: {
@@ -422,27 +152,6 @@ All API endpoints (except login) require authentication using JWT tokens.
                         type: 'string',
                         example: 'You are not allowed to perform this action.',
                       },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-      NotFoundError: {
-        description: 'Resource not found',
-        content: {
-          'application/json': {
-            schema: {
-              type: 'object',
-              properties: {
-                errors: {
-                  type: 'array',
-                  items: {
-                    type: 'object',
-                    properties: {
-                      message: { type: 'string', example: 'Not Found' },
                     },
                   },
                 },
@@ -518,7 +227,7 @@ All API endpoints (except login) require authentication using JWT tokens.
                 schema: {
                   type: 'object',
                   properties: {
-                    user: { $ref: '#/components/schemas/User' },
+                    user: { $ref: '#/components/schemas/LoginResponse/properties/user' },
                   },
                 },
               },
@@ -529,409 +238,196 @@ All API endpoints (except login) require authentication using JWT tokens.
       },
     },
 
-    // ==================== USERS ====================
-    '/api/users': {
-      get: {
-        tags: ['Users'],
-        summary: 'List users',
-        description: 'Get paginated list of users',
-        parameters: [
-          { $ref: '#/components/parameters/pageParam' },
-          { $ref: '#/components/parameters/limitParam' },
-          { $ref: '#/components/parameters/sortParam' },
-        ],
-        responses: {
-          '200': {
-            description: 'List of users',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/PaginatedResponse' },
-              },
-            },
-          },
-          '401': { $ref: '#/components/responses/UnauthorizedError' },
-        },
-      },
+    // ==================== BUSINESSES ====================
+    '/api/businesses/register': {
       post: {
-        tags: ['Users'],
-        summary: 'Create user',
-        description: 'Create a new user account',
+        tags: ['Businesses'],
+        summary: 'Register new business',
+        description:
+          'Register a new business, create admin user and profile. This is a public endpoint.',
+        security: [],
         requestBody: {
           required: true,
           content: {
             'application/json': {
-              schema: {
-                type: 'object',
-                required: ['email', 'password'],
-                properties: {
-                  email: { type: 'string', format: 'email' },
-                  password: { type: 'string', format: 'password' },
-                  roles: { type: 'array', items: { type: 'string' } },
-                  business: { type: 'string', format: 'uuid' },
+              schema: { $ref: '#/components/schemas/BusinessRegisterRequest' },
+            },
+          },
+        },
+        responses: {
+          '201': {
+            description: 'Business registered successfully',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/BusinessRegisterResponse' },
+              },
+            },
+          },
+          '400': { $ref: '#/components/responses/ValidationError' },
+          '500': {
+            description: 'Internal Server Error',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/Error' },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/api/businesses/me': {
+      get: {
+        tags: ['Businesses'],
+        summary: 'Get my business',
+        description: "Get the currently authenticated user's business details",
+        responses: {
+          '200': {
+            description: 'Business details',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    success: { type: 'boolean' },
+                    data: {
+                      type: 'object',
+                      properties: {
+                        id: { type: 'string', format: 'uuid' },
+                        business_name: { type: 'string' },
+                        start_date: { type: 'string', format: 'date' },
+                        logo_url: { type: 'string' },
+                        business_contact: { type: 'string' },
+                        country: { type: 'string' },
+                        city: { type: 'string' },
+                        state: { type: 'string' },
+                        zip_code: { type: 'string' },
+                        landmark: { type: 'string' },
+                        currency: { type: 'string' },
+                        timezone: { type: 'string' },
+                        website: { type: 'string' },
+                        alternate_contact: { type: 'string' },
+                        tax1_name: { type: 'string' },
+                        tax1_number: { type: 'string' },
+                        tax2_name: { type: 'string' },
+                        tax2_number: { type: 'string' },
+                        financial_year_start: { type: 'string' },
+                        stock_accounting_method: { type: 'string' },
+                        createdAt: { type: 'string', format: 'date-time' },
+                        updatedAt: { type: 'string', format: 'date-time' },
+                      },
+                    },
+                  },
                 },
               },
             },
           },
-        },
-        responses: {
-          '201': {
-            description: 'User created',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/User' },
-              },
-            },
-          },
-          '400': { $ref: '#/components/responses/ValidationError' },
-        },
-      },
-    },
-
-    // ==================== PRODUCTS ====================
-    '/api/products': {
-      get: {
-        tags: ['Products'],
-        summary: 'List products',
-        description: 'Get paginated list of products for the current business',
-        parameters: [
-          { $ref: '#/components/parameters/pageParam' },
-          { $ref: '#/components/parameters/limitParam' },
-          { $ref: '#/components/parameters/sortParam' },
-          { $ref: '#/components/parameters/depthParam' },
-          {
-            name: 'where[status][equals]',
-            in: 'query',
-            schema: { type: 'string', enum: ['active', 'inactive'] },
-            description: 'Filter by status',
-          },
-          {
-            name: 'where[category][equals]',
-            in: 'query',
-            schema: { type: 'string', format: 'uuid' },
-            description: 'Filter by category ID',
-          },
-          {
-            name: 'where[brand][equals]',
-            in: 'query',
-            schema: { type: 'string', format: 'uuid' },
-            description: 'Filter by brand ID',
-          },
-        ],
-        responses: {
-          '200': {
-            description: 'List of products',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/PaginatedResponse' },
-              },
-            },
-          },
           '401': { $ref: '#/components/responses/UnauthorizedError' },
-        },
-      },
-      post: {
-        tags: ['Products'],
-        summary: 'Create product',
-        description: 'Create a new product',
-        requestBody: {
-          required: true,
-          content: {
-            'application/json': {
-              schema: { $ref: '#/components/schemas/ProductCreate' },
-            },
-          },
-        },
-        responses: {
-          '201': {
-            description: 'Product created',
+          '404': {
+            description: 'Business not found',
             content: {
               'application/json': {
-                schema: { $ref: '#/components/schemas/Product' },
+                schema: { $ref: '#/components/schemas/Error' },
               },
             },
           },
-          '400': { $ref: '#/components/responses/ValidationError' },
-          '401': { $ref: '#/components/responses/UnauthorizedError' },
-        },
-      },
-    },
-    '/api/products/{id}': {
-      get: {
-        tags: ['Products'],
-        summary: 'Get product',
-        description: 'Get a single product by ID',
-        parameters: [
-          { $ref: '#/components/parameters/idParam' },
-          { $ref: '#/components/parameters/depthParam' },
-        ],
-        responses: {
-          '200': {
-            description: 'Product details',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/Product' },
-              },
-            },
-          },
-          '404': { $ref: '#/components/responses/NotFoundError' },
         },
       },
       patch: {
-        tags: ['Products'],
-        summary: 'Update product',
-        description: 'Update an existing product',
-        parameters: [{ $ref: '#/components/parameters/idParam' }],
-        requestBody: {
-          required: true,
-          content: {
-            'application/json': {
-              schema: { $ref: '#/components/schemas/ProductCreate' },
-            },
-          },
-        },
-        responses: {
-          '200': {
-            description: 'Product updated',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/Product' },
-              },
-            },
-          },
-          '404': { $ref: '#/components/responses/NotFoundError' },
-        },
-      },
-      delete: {
-        tags: ['Products'],
-        summary: 'Delete product',
-        description: 'Delete a product',
-        parameters: [{ $ref: '#/components/parameters/idParam' }],
-        responses: {
-          '200': {
-            description: 'Product deleted',
-          },
-          '404': { $ref: '#/components/responses/NotFoundError' },
-        },
-      },
-    },
-
-    // ==================== SALES ====================
-    '/api/sales': {
-      get: {
-        tags: ['Sales'],
-        summary: 'List sales',
-        description: 'Get paginated list of sales',
-        parameters: [
-          { $ref: '#/components/parameters/pageParam' },
-          { $ref: '#/components/parameters/limitParam' },
-          { $ref: '#/components/parameters/sortParam' },
-          {
-            name: 'where[status][equals]',
-            in: 'query',
-            schema: { type: 'string', enum: ['completed', 'pending', 'draft', 'cancelled'] },
-          },
-          {
-            name: 'where[transaction_date][greater_than_equal]',
-            in: 'query',
-            schema: { type: 'string', format: 'date' },
-            description: 'Filter from date',
-          },
-          {
-            name: 'where[transaction_date][less_than_equal]',
-            in: 'query',
-            schema: { type: 'string', format: 'date' },
-            description: 'Filter to date',
-          },
-        ],
-        responses: {
-          '200': {
-            description: 'List of sales',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/PaginatedResponse' },
-              },
-            },
-          },
-        },
-      },
-      post: {
-        tags: ['Sales'],
-        summary: 'Create sale',
-        description: 'Create a new sale/invoice',
-        requestBody: {
-          required: true,
-          content: {
-            'application/json': {
-              schema: { $ref: '#/components/schemas/SaleCreate' },
-            },
-          },
-        },
-        responses: {
-          '201': {
-            description: 'Sale created',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/Sale' },
-              },
-            },
-          },
-          '400': { $ref: '#/components/responses/ValidationError' },
-        },
-      },
-    },
-    '/api/sales/{id}': {
-      get: {
-        tags: ['Sales'],
-        summary: 'Get sale',
-        description: 'Get a single sale with items',
-        parameters: [
-          { $ref: '#/components/parameters/idParam' },
-          { $ref: '#/components/parameters/depthParam' },
-        ],
-        responses: {
-          '200': {
-            description: 'Sale details',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/Sale' },
-              },
-            },
-          },
-          '404': { $ref: '#/components/responses/NotFoundError' },
-        },
-      },
-    },
-
-    // ==================== CONTACTS ====================
-    '/api/contacts': {
-      get: {
-        tags: ['Contacts'],
-        summary: 'List contacts',
-        description: 'Get paginated list of customers/suppliers',
-        parameters: [
-          { $ref: '#/components/parameters/pageParam' },
-          { $ref: '#/components/parameters/limitParam' },
-          {
-            name: 'where[contact_type][equals]',
-            in: 'query',
-            schema: { type: 'string', enum: ['customer', 'supplier', 'both'] },
-          },
-        ],
-        responses: {
-          '200': {
-            description: 'List of contacts',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/PaginatedResponse' },
-              },
-            },
-          },
-        },
-      },
-      post: {
-        tags: ['Contacts'],
-        summary: 'Create contact',
-        description: 'Create a new customer or supplier',
-        requestBody: {
-          required: true,
-          content: {
-            'application/json': {
-              schema: { $ref: '#/components/schemas/Contact' },
-            },
-          },
-        },
-        responses: {
-          '201': {
-            description: 'Contact created',
-          },
-        },
-      },
-    },
-
-    // ==================== STOCK ====================
-    '/api/product-stock-price': {
-      get: {
-        tags: ['Stock'],
-        summary: 'List stock entries',
-        description: 'Get stock and pricing for products',
-        parameters: [
-          { $ref: '#/components/parameters/pageParam' },
-          { $ref: '#/components/parameters/limitParam' },
-          {
-            name: 'where[product][equals]',
-            in: 'query',
-            schema: { type: 'string', format: 'uuid' },
-            description: 'Filter by product ID',
-          },
-        ],
-        responses: {
-          '200': {
-            description: 'Stock entries',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/PaginatedResponse' },
-              },
-            },
-          },
-        },
-      },
-    },
-
-    // ==================== CATEGORIES ====================
-    '/api/categories': {
-      get: {
-        tags: ['Categories'],
-        summary: 'List categories',
-        description: 'Get all product categories',
-        parameters: [
-          { $ref: '#/components/parameters/pageParam' },
-          { $ref: '#/components/parameters/limitParam' },
-        ],
-        responses: {
-          '200': {
-            description: 'List of categories',
-          },
-        },
-      },
-      post: {
-        tags: ['Categories'],
-        summary: 'Create category',
+        tags: ['Businesses'],
+        summary: 'Update my business',
+        description: "Update the currently authenticated user's business details",
         requestBody: {
           required: true,
           content: {
             'application/json': {
               schema: {
                 type: 'object',
-                required: ['category_name'],
                 properties: {
-                  category_name: { type: 'string' },
-                  category_code: { type: 'string' },
-                  description: { type: 'string' },
-                  parent_category_id: { type: 'string', format: 'uuid' },
+                  business_name: { type: 'string' },
+                  logo_url: { type: 'string' },
+                  business_contact: { type: 'string' },
+                  website: { type: 'string' },
+                  alternate_contact: { type: 'string' },
+                  tax1_name: { type: 'string' },
+                  tax1_number: { type: 'string' },
+                  tax2_name: { type: 'string' },
+                  tax2_number: { type: 'string' },
                 },
               },
             },
           },
         },
         responses: {
-          '201': { description: 'Category created' },
+          '200': {
+            description: 'Business updated successfully',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    success: { type: 'boolean' },
+                    message: { type: 'string' },
+                    data: { type: 'object' },
+                  },
+                },
+              },
+            },
+          },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '500': {
+            description: 'Internal Server Error',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/Error' },
+              },
+            },
+          },
         },
       },
     },
 
     // ==================== BRANDS ====================
-    '/api/brands': {
+    '/api/brands/list': {
       get: {
         tags: ['Brands'],
-        summary: 'List brands',
-        description: 'Get all product brands',
+        summary: 'List all brands',
+        description: "Get all brands for the current user's business",
         responses: {
-          '200': { description: 'List of brands' },
+          '200': {
+            description: 'List of brands',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    success: { type: 'boolean' },
+                    data: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        properties: {
+                          id: { type: 'string', format: 'uuid' },
+                          brand_name: { type: 'string' },
+                          description: { type: 'string' },
+                          logo_url: { type: 'string' },
+                        },
+                      },
+                    },
+                    totalDocs: { type: 'integer' },
+                  },
+                },
+              },
+            },
+          },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
         },
       },
+    },
+    '/api/brands/create': {
       post: {
         tags: ['Brands'],
-        summary: 'Create brand',
+        summary: 'Create a new brand',
+        description: "Create a new brand for the current user's business",
         requestBody: {
           required: true,
           content: {
@@ -940,80 +436,985 @@ All API endpoints (except login) require authentication using JWT tokens.
                 type: 'object',
                 required: ['brand_name'],
                 properties: {
-                  brand_name: { type: 'string' },
-                  description: { type: 'string' },
-                  logo_url: { type: 'string', format: 'uri' },
+                  brand_name: { type: 'string', example: 'Nike' },
+                  description: { type: 'string', example: 'Sports brand' },
+                  logo_url: { type: 'string', example: 'https://example.com/logo.png' },
                 },
               },
             },
           },
         },
         responses: {
-          '201': { description: 'Brand created' },
+          '201': {
+            description: 'Brand created successfully',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    success: { type: 'boolean' },
+                    message: { type: 'string' },
+                    data: { type: 'object' },
+                  },
+                },
+              },
+            },
+          },
+          '400': { $ref: '#/components/responses/ValidationError' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
         },
       },
     },
-
-    // ==================== PURCHASES ====================
-    '/api/purchases': {
+    '/api/brands/{id}': {
       get: {
-        tags: ['Purchases'],
-        summary: 'List purchases',
-        description: 'Get paginated list of purchase orders',
+        tags: ['Brands'],
+        summary: 'Get a brand',
+        description: 'Get a single brand by ID',
         parameters: [
-          { $ref: '#/components/parameters/pageParam' },
-          { $ref: '#/components/parameters/limitParam' },
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'string', format: 'uuid' },
+            description: 'Brand ID',
+          },
         ],
         responses: {
-          '200': { description: 'List of purchases' },
+          '200': {
+            description: 'Brand details',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    success: { type: 'boolean' },
+                    data: { type: 'object' },
+                  },
+                },
+              },
+            },
+          },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '404': { description: 'Brand not found' },
         },
       },
-      post: {
-        tags: ['Purchases'],
-        summary: 'Create purchase',
-        description: 'Create a new purchase order',
+      patch: {
+        tags: ['Brands'],
+        summary: 'Update a brand',
+        description: 'Update an existing brand',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'string', format: 'uuid' },
+            description: 'Brand ID',
+          },
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  brand_name: { type: 'string' },
+                  description: { type: 'string' },
+                  logo_url: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
         responses: {
-          '201': { description: 'Purchase created' },
+          '200': {
+            description: 'Brand updated successfully',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    success: { type: 'boolean' },
+                    message: { type: 'string' },
+                    data: { type: 'object' },
+                  },
+                },
+              },
+            },
+          },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '404': { description: 'Brand not found' },
+        },
+      },
+      delete: {
+        tags: ['Brands'],
+        summary: 'Delete a brand',
+        description: 'Delete an existing brand',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'string', format: 'uuid' },
+            description: 'Brand ID',
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'Brand deleted successfully',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    success: { type: 'boolean' },
+                    message: { type: 'string' },
+                  },
+                },
+              },
+            },
+          },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '404': { description: 'Brand not found' },
         },
       },
     },
 
-    // ==================== EXPENSES ====================
-    '/api/expenses': {
+    // ==================== CATEGORIES ====================
+    '/api/categories/list': {
       get: {
-        tags: ['Expenses'],
-        summary: 'List expenses',
-        description: 'Get paginated list of expenses',
+        tags: ['Categories'],
+        summary: 'List all categories',
+        description: "Get all categories for the current user's business",
+        parameters: [
+          { name: 'page', in: 'query', schema: { type: 'integer', default: 1 } },
+          { name: 'limit', in: 'query', schema: { type: 'integer', default: 10, maximum: 100 } },
+          {
+            name: 'search',
+            in: 'query',
+            schema: { type: 'string' },
+            description: 'Search by name',
+          },
+          { name: 'sort', in: 'query', schema: { type: 'string', default: 'category_name' } },
+          {
+            name: 'parent',
+            in: 'query',
+            schema: { type: 'string' },
+            description: 'Filter by parent ID or null for root',
+          },
+        ],
         responses: {
-          '200': { description: 'List of expenses' },
+          '200': {
+            description: 'List of categories',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    success: { type: 'boolean' },
+                    data: { type: 'array', items: { type: 'object' } },
+                    totalDocs: { type: 'integer' },
+                    totalPages: { type: 'integer' },
+                    page: { type: 'integer' },
+                    hasNextPage: { type: 'boolean' },
+                    hasPrevPage: { type: 'boolean' },
+                  },
+                },
+              },
+            },
+          },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
         },
       },
-      post: {
-        tags: ['Expenses'],
-        summary: 'Create expense',
-        description: 'Record a new expense',
+    },
+    '/api/categories/tree': {
+      get: {
+        tags: ['Categories'],
+        summary: 'Get category tree',
+        description: 'Get hierarchical category tree for the current business',
         responses: {
-          '201': { description: 'Expense created' },
+          '200': {
+            description: 'Category tree',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    success: { type: 'boolean' },
+                    data: { type: 'array', items: { type: 'object' } },
+                    totalCategories: { type: 'integer' },
+                  },
+                },
+              },
+            },
+          },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+        },
+      },
+    },
+    '/api/categories/create': {
+      post: {
+        tags: ['Categories'],
+        summary: 'Create a new category',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['category_name'],
+                properties: {
+                  category_name: { type: 'string', example: 'Electronics' },
+                  category_code: { type: 'string', example: 'ELEC' },
+                  description: { type: 'string' },
+                  hsn_code: { type: 'string', example: '8471' },
+                  parent_category: { type: 'string', format: 'uuid' },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          '201': { description: 'Category created successfully' },
+          '400': { $ref: '#/components/responses/ValidationError' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '409': { description: 'Category with this name already exists' },
+        },
+      },
+    },
+    '/api/categories/{id}': {
+      get: {
+        tags: ['Categories'],
+        summary: 'Get a category',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        responses: {
+          '200': { description: 'Category details' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '404': { description: 'Category not found' },
+        },
+      },
+      patch: {
+        tags: ['Categories'],
+        summary: 'Update a category',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  category_name: { type: 'string' },
+                  category_code: { type: 'string' },
+                  description: { type: 'string' },
+                  hsn_code: { type: 'string' },
+                  parent_category: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          '200': { description: 'Category updated successfully' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '404': { description: 'Category not found' },
+          '409': { description: 'Category with this name already exists' },
+        },
+      },
+      delete: {
+        tags: ['Categories'],
+        summary: 'Delete a category',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        responses: {
+          '200': { description: 'Category deleted successfully' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '404': { description: 'Category not found' },
+          '409': { description: 'Cannot delete - has children or linked products' },
         },
       },
     },
 
-    // ==================== BUSINESS LOCATIONS ====================
-    '/api/business-locations': {
+    // ==================== UNITS ====================
+    '/api/units/list': {
       get: {
-        tags: ['Settings'],
-        summary: 'List locations',
-        description: 'Get all business locations/branches',
+        tags: ['Units'],
+        summary: 'List all units',
+        description: "Get all units for the current user's business",
+        parameters: [
+          { name: 'page', in: 'query', schema: { type: 'integer', default: 1 } },
+          { name: 'limit', in: 'query', schema: { type: 'integer', default: 10, maximum: 100 } },
+          {
+            name: 'search',
+            in: 'query',
+            schema: { type: 'string' },
+            description: 'Search by name or short name',
+          },
+          { name: 'sort', in: 'query', schema: { type: 'string', default: 'name' } },
+        ],
         responses: {
-          '200': { description: 'List of locations' },
+          '200': {
+            description: 'List of units',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    success: { type: 'boolean' },
+                    data: { type: 'array', items: { type: 'object' } },
+                    totalDocs: { type: 'integer' },
+                    totalPages: { type: 'integer' },
+                  },
+                },
+              },
+            },
+          },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
         },
       },
+    },
+    '/api/units/create': {
       post: {
-        tags: ['Settings'],
-        summary: 'Create location',
-        description: 'Add a new business location',
+        tags: ['Units'],
+        summary: 'Create a new unit',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['name', 'short_name'],
+                properties: {
+                  name: { type: 'string', example: 'Kilogram' },
+                  short_name: { type: 'string', example: 'kg' },
+                  allow_decimal: { type: 'boolean', default: false },
+                },
+              },
+            },
+          },
+        },
         responses: {
-          '201': { description: 'Location created' },
+          '201': { description: 'Unit created successfully' },
+          '400': { $ref: '#/components/responses/ValidationError' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '409': { description: 'Unit with this name or short name already exists' },
+        },
+      },
+    },
+    '/api/units/{id}': {
+      get: {
+        tags: ['Units'],
+        summary: 'Get a unit',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        responses: {
+          '200': { description: 'Unit details' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '404': { description: 'Unit not found' },
+        },
+      },
+      patch: {
+        tags: ['Units'],
+        summary: 'Update a unit',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  name: { type: 'string' },
+                  short_name: { type: 'string' },
+                  allow_decimal: { type: 'boolean' },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          '200': { description: 'Unit updated successfully' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '404': { description: 'Unit not found' },
+          '409': { description: 'Unit with this name or short name already exists' },
+        },
+      },
+      delete: {
+        tags: ['Units'],
+        summary: 'Delete a unit',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        responses: {
+          '200': { description: 'Unit deleted successfully' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '404': { description: 'Unit not found' },
+          '409': { description: 'Cannot delete - linked to products' },
+        },
+      },
+    },
+
+    // ==================== UNIT CONVERSIONS ====================
+    '/api/units/groups': {
+      get: {
+        tags: ['Unit Conversions'],
+        summary: 'Get all unit groups',
+        description: 'Get available unit groups (MASS, LENGTH, VOLUME, etc.)',
+        responses: {
+          '200': {
+            description: 'List of unit groups',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    success: { type: 'boolean' },
+                    data: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        properties: {
+                          value: { type: 'string', example: 'MASS' },
+                          label: { type: 'string', example: 'Mass (Weight)' },
+                          examples: { type: 'string', example: 'kg, g, mg' },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+        },
+      },
+    },
+    '/api/units/by-group/{group}': {
+      get: {
+        tags: ['Unit Conversions'],
+        summary: 'Get units by group',
+        parameters: [
+          {
+            name: 'group',
+            in: 'path',
+            required: true,
+            schema: {
+              type: 'string',
+              enum: ['MASS', 'LENGTH', 'VOLUME', 'AREA', 'COUNT', 'TIME', 'OTHER'],
+            },
+          },
+        ],
+        responses: {
+          '200': { description: 'Units in the specified group' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '400': { description: 'Invalid group' },
+        },
+      },
+    },
+    '/api/unit_conversions/list': {
+      get: {
+        tags: ['Unit Conversions'],
+        summary: 'List all unit conversions',
+        responses: {
+          '200': {
+            description: 'List of conversions',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    success: { type: 'boolean' },
+                    data: { type: 'array', items: { type: 'object' } },
+                  },
+                },
+              },
+            },
+          },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+        },
+      },
+    },
+    '/api/unit_conversions/create': {
+      post: {
+        tags: ['Unit Conversions'],
+        summary: 'Create a unit conversion',
+        description: 'Creates a conversion between two units. Reverse conversion is auto-created.',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['from_unit', 'to_unit', 'factor'],
+                properties: {
+                  from_unit: { type: 'string', description: 'Unit ID', example: '1' },
+                  to_unit: { type: 'string', description: 'Unit ID', example: '2' },
+                  factor: { type: 'number', description: '1 from_unit = X to_unit', example: 1000 },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          '201': { description: 'Conversion created successfully' },
+          '400': { $ref: '#/components/responses/ValidationError' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '409': { description: 'Conversion already exists' },
+        },
+      },
+    },
+    '/api/unit_conversions/convert': {
+      post: {
+        tags: ['Unit Conversions'],
+        summary: 'Convert a value between units',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['value', 'from_unit', 'to_unit'],
+                properties: {
+                  value: { type: 'number', example: 5 },
+                  from_unit: {
+                    type: 'string',
+                    description: 'Unit ID or short_name',
+                    example: 'kg',
+                  },
+                  to_unit: { type: 'string', description: 'Unit ID or short_name', example: 'g' },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          '200': {
+            description: 'Conversion result',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    success: { type: 'boolean' },
+                    data: {
+                      type: 'object',
+                      properties: {
+                        original_value: { type: 'number', example: 5 },
+                        original_unit: { type: 'string', example: 'kg' },
+                        converted_value: { type: 'number', example: 5000 },
+                        converted_unit: { type: 'string', example: 'g' },
+                        factor: { type: 'number', example: 1000 },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '400': { description: 'No conversion defined' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+        },
+      },
+    },
+    '/api/unit_conversions/{id}': {
+      delete: {
+        tags: ['Unit Conversions'],
+        summary: 'Delete a conversion',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        responses: {
+          '200': { description: 'Conversion deleted successfully' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '404': { description: 'Conversion not found' },
+        },
+      },
+    },
+
+    // ==================== WARRANTIES ====================
+    '/api/warranties/list': {
+      get: {
+        tags: ['Warranties'],
+        summary: 'List all warranties',
+        description: "Get all warranties for the current user's business",
+        parameters: [
+          { name: 'page', in: 'query', schema: { type: 'integer', default: 1 } },
+          { name: 'limit', in: 'query', schema: { type: 'integer', default: 10, maximum: 100 } },
+          {
+            name: 'search',
+            in: 'query',
+            schema: { type: 'string' },
+            description: 'Search by name',
+          },
+          { name: 'sort', in: 'query', schema: { type: 'string', default: 'name' } },
+          {
+            name: 'duration_type',
+            in: 'query',
+            schema: { type: 'string', enum: ['days', 'months', 'years'] },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'List of warranties',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    success: { type: 'boolean' },
+                    data: { type: 'array', items: { type: 'object' } },
+                    totalDocs: { type: 'integer' },
+                    totalPages: { type: 'integer' },
+                  },
+                },
+              },
+            },
+          },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+        },
+      },
+    },
+    '/api/warranties/create': {
+      post: {
+        tags: ['Warranties'],
+        summary: 'Create a new warranty',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['name', 'duration'],
+                properties: {
+                  name: { type: 'string', example: '1 Year Standard Warranty' },
+                  description: { type: 'string', example: 'Covers manufacturing defects' },
+                  duration: { type: 'integer', example: 12 },
+                  duration_type: {
+                    type: 'string',
+                    enum: ['days', 'months', 'years'],
+                    default: 'months',
+                  },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          '201': { description: 'Warranty created successfully' },
+          '400': { $ref: '#/components/responses/ValidationError' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '409': { description: 'Warranty with this name already exists' },
+        },
+      },
+    },
+    '/api/warranties/{id}': {
+      get: {
+        tags: ['Warranties'],
+        summary: 'Get a warranty',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        responses: {
+          '200': { description: 'Warranty details' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '404': { description: 'Warranty not found' },
+        },
+      },
+      patch: {
+        tags: ['Warranties'],
+        summary: 'Update a warranty',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  name: { type: 'string' },
+                  description: { type: 'string' },
+                  duration: { type: 'integer' },
+                  duration_type: { type: 'string', enum: ['days', 'months', 'years'] },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          '200': { description: 'Warranty updated successfully' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '404': { description: 'Warranty not found' },
+          '409': { description: 'Warranty with this name already exists' },
+        },
+      },
+      delete: {
+        tags: ['Warranties'],
+        summary: 'Delete a warranty',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        responses: {
+          '200': { description: 'Warranty deleted successfully' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '404': { description: 'Warranty not found' },
+          '409': { description: 'Cannot delete - linked to products' },
+        },
+      },
+    },
+
+    // ==================== SELLING PRICE GROUPS ====================
+    '/api/selling-price-groups/list': {
+      get: {
+        tags: ['Price Groups'],
+        summary: 'List all price groups',
+        description: "Get all selling price groups for the current user's business",
+        parameters: [
+          { name: 'page', in: 'query', schema: { type: 'integer', default: 1 } },
+          { name: 'limit', in: 'query', schema: { type: 'integer', default: 10, maximum: 100 } },
+          {
+            name: 'search',
+            in: 'query',
+            schema: { type: 'string' },
+            description: 'Search by group name',
+          },
+          { name: 'sort', in: 'query', schema: { type: 'string', default: 'group_name' } },
+        ],
+        responses: {
+          '200': {
+            description: 'List of price groups',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    success: { type: 'boolean' },
+                    data: { type: 'array', items: { type: 'object' } },
+                    totalDocs: { type: 'integer' },
+                    totalPages: { type: 'integer' },
+                  },
+                },
+              },
+            },
+          },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+        },
+      },
+    },
+    '/api/selling-price-groups/create': {
+      post: {
+        tags: ['Price Groups'],
+        summary: 'Create a new price group',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['group_name'],
+                properties: {
+                  group_name: { type: 'string', example: 'Wholesale' },
+                  description: { type: 'string', example: 'Bulk purchase prices' },
+                  color: { type: 'string', example: '#4CAF50' },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          '201': { description: 'Price group created successfully' },
+          '400': { $ref: '#/components/responses/ValidationError' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '409': { description: 'Price group with this name already exists' },
+        },
+      },
+    },
+    '/api/selling-price-groups/{id}': {
+      get: {
+        tags: ['Price Groups'],
+        summary: 'Get a price group',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        responses: {
+          '200': { description: 'Price group details' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '404': { description: 'Price group not found' },
+        },
+      },
+      patch: {
+        tags: ['Price Groups'],
+        summary: 'Update a price group',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  group_name: { type: 'string' },
+                  description: { type: 'string' },
+                  color: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          '200': { description: 'Price group updated successfully' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '404': { description: 'Price group not found' },
+          '409': { description: 'Price group with this name already exists' },
+        },
+      },
+      delete: {
+        tags: ['Price Groups'],
+        summary: 'Delete a price group',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        responses: {
+          '200': { description: 'Price group deleted successfully' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '404': { description: 'Price group not found' },
+          '409': { description: 'Cannot delete - linked to product prices' },
+        },
+      },
+    },
+
+    // ==================== PRODUCTS ====================
+    '/api/products/list': {
+      get: {
+        tags: ['Products'],
+        summary: 'List all products',
+        description: "Get all products for the current user's business",
+        parameters: [
+          { name: 'page', in: 'query', schema: { type: 'integer', default: 1 } },
+          { name: 'limit', in: 'query', schema: { type: 'integer', default: 10, maximum: 100 } },
+          {
+            name: 'search',
+            in: 'query',
+            schema: { type: 'string' },
+            description: 'Search by name, SKU, description',
+          },
+          { name: 'sort', in: 'query', schema: { type: 'string', default: 'name' } },
+          { name: 'status', in: 'query', schema: { type: 'string', enum: ['active', 'inactive'] } },
+          {
+            name: 'category',
+            in: 'query',
+            schema: { type: 'string' },
+            description: 'Filter by category ID',
+          },
+          {
+            name: 'brand',
+            in: 'query',
+            schema: { type: 'string' },
+            description: 'Filter by brand ID',
+          },
+          {
+            name: 'unit',
+            in: 'query',
+            schema: { type: 'string' },
+            description: 'Filter by unit ID',
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'List of products',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    success: { type: 'boolean' },
+                    data: { type: 'array', items: { type: 'object' } },
+                    totalDocs: { type: 'integer' },
+                    totalPages: { type: 'integer' },
+                  },
+                },
+              },
+            },
+          },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+        },
+      },
+    },
+    '/api/products/create': {
+      post: {
+        tags: ['Products'],
+        summary: 'Create a new product',
+        description: 'SKU is auto-generated if not provided',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['name'],
+                properties: {
+                  name: { type: 'string', example: 'iPhone 15 Pro' },
+                  sku: {
+                    type: 'string',
+                    example: 'IPH15PRO-256',
+                    description: 'Auto-generated if empty',
+                  },
+                  description: { type: 'string' },
+                  status: { type: 'string', enum: ['active', 'inactive'], default: 'active' },
+                  category: { type: 'string', description: 'Category ID' },
+                  brand: { type: 'string', description: 'Brand ID' },
+                  units: { type: 'string', description: 'Unit ID' },
+                  warranties: { type: 'string', description: 'Warranty ID' },
+                  manage_stock: { type: 'boolean', default: true },
+                  alert_quantity: { type: 'integer', default: 0 },
+                  is_serial_imei: { type: 'boolean', default: false },
+                  expiry_date: { type: 'boolean', default: false },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          '201': { description: 'Product created successfully' },
+          '400': { $ref: '#/components/responses/ValidationError' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '409': { description: 'Product with this name or SKU already exists' },
+        },
+      },
+    },
+    '/api/products/{id}': {
+      get: {
+        tags: ['Products'],
+        summary: 'Get a product',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        responses: {
+          '200': { description: 'Product details with related data' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '404': { description: 'Product not found' },
+        },
+      },
+      patch: {
+        tags: ['Products'],
+        summary: 'Update a product',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  name: { type: 'string' },
+                  sku: { type: 'string' },
+                  description: { type: 'string' },
+                  status: { type: 'string', enum: ['active', 'inactive'] },
+                  category: { type: 'string' },
+                  brand: { type: 'string' },
+                  units: { type: 'string' },
+                  warranties: { type: 'string' },
+                  manage_stock: { type: 'boolean' },
+                  alert_quantity: { type: 'integer' },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          '200': { description: 'Product updated successfully' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '404': { description: 'Product not found' },
+          '409': { description: 'Product with this name or SKU already exists' },
+        },
+      },
+      delete: {
+        tags: ['Products'],
+        summary: 'Delete a product',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        responses: {
+          '200': { description: 'Product deleted successfully' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '404': { description: 'Product not found' },
+          '409': { description: 'Cannot delete - has sales or purchase history' },
         },
       },
     },

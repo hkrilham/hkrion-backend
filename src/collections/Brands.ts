@@ -1,17 +1,25 @@
 import type { CollectionConfig } from 'payload'
-import { filterByBusiness } from '../hooks/filterByBusiness'
+import { disableRestApiAccess } from '../hooks/disableRestApiAccess'
 import { setBusinessOnCreate } from '../hooks/setBusinessOnCreate'
+import { listBrands, getBrand, createBrand, updateBrand, deleteBrand } from '../endpoints/brand'
 
 export const Brands: CollectionConfig = {
   slug: 'brands',
   admin: {
     useAsTitle: 'brand_name',
   },
+  endpoints: [
+    { path: '/list', method: 'get', handler: listBrands },
+    { path: '/create', method: 'post', handler: createBrand },
+    { path: '/:id', method: 'get', handler: getBrand },
+    { path: '/:id', method: 'patch', handler: updateBrand },
+    { path: '/:id', method: 'delete', handler: deleteBrand },
+  ],
   access: {
-    read: filterByBusiness,
-    update: filterByBusiness,
-    delete: filterByBusiness,
-    create: ({ req }) => !!req.user, // Allow any logged in user to create, business will be set by hook
+    read: disableRestApiAccess,
+    update: disableRestApiAccess,
+    delete: disableRestApiAccess,
+    create: disableRestApiAccess,
   },
   hooks: {
     beforeChange: [setBusinessOnCreate],

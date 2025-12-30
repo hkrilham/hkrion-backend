@@ -1,10 +1,37 @@
 import type { CollectionConfig } from 'payload'
+import { disableRestApiAccess } from '../hooks/disableRestApiAccess'
+import { registerBusiness } from '../endpoints/Business/registerBusiness'
+import { getMyBusiness, updateMyBusiness } from '../endpoints/Business/myBusiness'
 
 export const Businesses: CollectionConfig = {
   slug: 'businesses',
   admin: {
     useAsTitle: 'business_name',
   },
+  endpoints: [
+    {
+      path: '/register',
+      method: 'post',
+      handler: registerBusiness,
+    },
+    {
+      path: '/me',
+      method: 'get',
+      handler: getMyBusiness,
+    },
+    {
+      path: '/me',
+      method: 'patch',
+      handler: updateMyBusiness,
+    },
+  ],
+  access: {
+    read: disableRestApiAccess,
+    update: disableRestApiAccess,
+    delete: disableRestApiAccess,
+    create: disableRestApiAccess,
+  },
+  // NOTE: Default units are created in registerBusiness endpoint
   fields: [
     {
       name: 'business_name',

@@ -93,6 +93,7 @@ import { Taxes } from './collections/Taxes'
 import { TeamMembers } from './collections/TeamMembers'
 import { Test } from './collections/Test'
 import { Timezones } from './collections/Timezones'
+import { UnitConversions } from './collections/UnitConversions'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -135,6 +136,7 @@ export default buildConfig({
     ContactSubmissions,
     SellingPriceGroups,
     Units,
+    UnitConversions,
     Warranties,
     SubscriptionPackages,
     GlobalPaymentMethods,
