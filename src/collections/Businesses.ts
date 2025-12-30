@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { disableRestApiAccess } from '../hooks/disableRestApiAccess'
+import { filterOwnBusiness } from '../hooks/filterOwnBusiness'
 import { registerBusiness } from '../endpoints/Business/registerBusiness'
 import { getMyBusiness, updateMyBusiness } from '../endpoints/Business/myBusiness'
 
@@ -7,6 +7,7 @@ export const Businesses: CollectionConfig = {
   slug: 'businesses',
   admin: {
     useAsTitle: 'business_name',
+    group: 'System',
   },
   endpoints: [
     {
@@ -26,10 +27,11 @@ export const Businesses: CollectionConfig = {
     },
   ],
   access: {
-    read: disableRestApiAccess,
-    update: disableRestApiAccess,
-    delete: disableRestApiAccess,
-    create: disableRestApiAccess,
+    // Users can only see their own business
+    read: filterOwnBusiness,
+    update: filterOwnBusiness,
+    delete: ({ req }) => false, // No one can delete businesses via API
+    create: ({ req }) => false, // Use /register endpoint instead
   },
   // NOTE: Default units are created in registerBusiness endpoint
   fields: [

@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { disableRestApiAccess } from '../hooks/disableRestApiAccess'
+import { filterByBusiness } from '../hooks/filterByBusiness'
 import { setBusinessOnCreate } from '../hooks/setBusinessOnCreate'
 import {
   listCategories,
@@ -14,6 +14,7 @@ export const Categories: CollectionConfig = {
   slug: 'categories',
   admin: {
     useAsTitle: 'category_name',
+    group: 'Inventory',
   },
   endpoints: [
     { path: '/list', method: 'get', handler: listCategories },
@@ -24,10 +25,10 @@ export const Categories: CollectionConfig = {
     { path: '/:id', method: 'delete', handler: deleteCategory },
   ],
   access: {
-    read: disableRestApiAccess,
-    update: disableRestApiAccess,
-    delete: disableRestApiAccess,
-    create: disableRestApiAccess,
+    read: filterByBusiness,
+    update: filterByBusiness,
+    delete: filterByBusiness,
+    create: ({ req }) => !!req.user,
   },
   hooks: {
     beforeChange: [setBusinessOnCreate],

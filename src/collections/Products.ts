@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { disableRestApiAccess } from '../hooks/disableRestApiAccess'
+import { filterByBusiness } from '../hooks/filterByBusiness'
 import { setBusinessOnCreate } from '../hooks/setBusinessOnCreate'
 import {
   listProducts,
@@ -23,10 +23,10 @@ export const Products: CollectionConfig = {
     { path: '/:id', method: 'delete', handler: deleteProduct },
   ],
   access: {
-    read: disableRestApiAccess,
-    update: disableRestApiAccess,
-    delete: disableRestApiAccess,
-    create: disableRestApiAccess,
+    read: filterByBusiness,
+    update: filterByBusiness,
+    delete: filterByBusiness,
+    create: ({ req }) => !!req.user,
   },
   hooks: {
     beforeChange: [setBusinessOnCreate],

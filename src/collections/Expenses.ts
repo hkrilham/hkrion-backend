@@ -1,17 +1,18 @@
 import type { CollectionConfig } from 'payload'
-import { disableRestApiAccess } from '../hooks/disableRestApiAccess'
+import { filterByBusiness } from '../hooks/filterByBusiness'
 import { setBusinessOnCreate } from '../hooks/setBusinessOnCreate'
 
 export const Expenses: CollectionConfig = {
   slug: 'expenses',
   admin: {
     useAsTitle: 'expense_number',
+    group: 'Transactions',
   },
   access: {
-    read: disableRestApiAccess,
-    update: disableRestApiAccess,
-    delete: disableRestApiAccess,
-    create: disableRestApiAccess,
+    read: filterByBusiness,
+    update: filterByBusiness,
+    delete: filterByBusiness,
+    create: ({ req }) => !!req.user,
   },
   hooks: {
     beforeChange: [setBusinessOnCreate],

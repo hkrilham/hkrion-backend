@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { disableRestApiAccess } from '../hooks/disableRestApiAccess'
+import { filterByBusiness } from '../hooks/filterByBusiness'
 import { setBusinessOnCreate } from '../hooks/setBusinessOnCreate'
 import { listUnits, getUnit, createUnit, updateUnit, deleteUnit } from '../endpoints/unit'
 import { getUnitGroups, getUnitsByGroup } from '../endpoints/unitConversion'
@@ -22,10 +22,10 @@ export const Units: CollectionConfig = {
     { path: '/:id', method: 'delete', handler: deleteUnit },
   ],
   access: {
-    read: disableRestApiAccess,
-    update: disableRestApiAccess,
-    delete: disableRestApiAccess,
-    create: disableRestApiAccess,
+    read: filterByBusiness,
+    update: filterByBusiness,
+    delete: filterByBusiness,
+    create: ({ req }) => !!req.user,
   },
   hooks: {
     beforeChange: [setBusinessOnCreate],
