@@ -197,13 +197,30 @@ export default buildConfig({
     Timezones,
   ],
   editor: lexicalEditor(),
-  secret: process.env.PAYLOAD_SECRET || '',
+  // SECURITY: Require PAYLOAD_SECRET - never use empty string fallback
+  secret: (() => {
+    const secret = process.env.PAYLOAD_SECRET
+    if (!secret || secret.length < 32) {
+      throw new Error(
+        'PAYLOAD_SECRET environment variable is required and must be at least 32 characters long. ' +
+          "Generate one with: node -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\"",
+      )
+    }
+    return secret
+  })(),
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: postgresAdapter({
     pool: {
-      connectionString: process.env.DATABASE_URL || '',
+      // SECURITY: Require DATABASE_URL
+      connectionString: (() => {
+        const dbUrl = process.env.DATABASE_URL
+        if (!dbUrl) {
+          throw new Error('DATABASE_URL environment variable is required')
+        }
+        return dbUrl
+      })(),
     },
   }),
   sharp,

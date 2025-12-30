@@ -351,6 +351,7 @@ export interface Business {
 export interface Media {
   id: number;
   alt: string;
+  business?: (number | null) | Business;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -2051,7 +2052,6 @@ export interface UserProfile {
   first_name: string;
   last_name?: string | null;
   email: string;
-  password?: string | null;
   role?: ('admin' | 'manager' | 'cashier' | 'staff') | null;
   role_id?: (number | null) | UserRole;
   is_active?: boolean | null;
@@ -2123,15 +2123,37 @@ export interface SubscriptionUsage {
   createdAt: string;
 }
 /**
+ * HKRiON Staff with full system access. Only existing super admins can manage this.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "super-admins".
  */
 export interface SuperAdmin {
   id: number;
+  /**
+   * The user account to grant super admin access
+   */
   user: number | User;
+  /**
+   * Email for quick reference (should match user email)
+   */
   email: string;
+  /**
+   * Full name of the super admin
+   */
   full_name?: string | null;
+  /**
+   * Uncheck to temporarily revoke super admin access without deleting
+   */
   is_active?: boolean | null;
+  /**
+   * Who added this super admin
+   */
+  added_by?: (number | null) | User;
+  /**
+   * Internal notes about this super admin
+   */
+  notes?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2754,6 +2776,7 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  business?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -4128,7 +4151,6 @@ export interface UserProfilesSelect<T extends boolean = true> {
   first_name?: T;
   last_name?: T;
   email?: T;
-  password?: T;
   role?: T;
   role_id?: T;
   is_active?: T;
@@ -4206,6 +4228,8 @@ export interface SuperAdminsSelect<T extends boolean = true> {
   email?: T;
   full_name?: T;
   is_active?: T;
+  added_by?: T;
+  notes?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -3,6 +3,57 @@ import { PayloadHandler } from 'payload'
 // Type for unit group
 type UnitGroup = 'MASS' | 'LENGTH' | 'VOLUME' | 'AREA' | 'COUNT' | 'TIME' | 'OTHER'
 
+// ==================== VALIDATION HELPERS ====================
+
+/**
+ * Validate password strength
+ * - Minimum 8 characters
+ * - At least one uppercase letter
+ * - At least one lowercase letter
+ * - At least one number
+ */
+const validatePassword = (password: string): { valid: boolean; error?: string } => {
+  if (!password || password.length < 8) {
+    return { valid: false, error: 'Password must be at least 8 characters long' }
+  }
+  if (!/[A-Z]/.test(password)) {
+    return { valid: false, error: 'Password must contain at least one uppercase letter' }
+  }
+  if (!/[a-z]/.test(password)) {
+    return { valid: false, error: 'Password must contain at least one lowercase letter' }
+  }
+  if (!/[0-9]/.test(password)) {
+    return { valid: false, error: 'Password must contain at least one number' }
+  }
+  return { valid: true }
+}
+
+/**
+ * Validate email format
+ */
+const validateEmail = (email: string): { valid: boolean; error?: string } => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (!email || !emailRegex.test(email)) {
+    return { valid: false, error: 'Invalid email format' }
+  }
+  return { valid: true }
+}
+
+/**
+ * Validate business name
+ */
+const validateBusinessName = (name: string): { valid: boolean; error?: string } => {
+  if (!name || name.trim().length < 2) {
+    return { valid: false, error: 'Business name must be at least 2 characters' }
+  }
+  if (name.length > 100) {
+    return { valid: false, error: 'Business name must not exceed 100 characters' }
+  }
+  return { valid: true }
+}
+
+// ==================== REGISTER BUSINESS ====================
+
 export const registerBusiness: PayloadHandler = async (req): Promise<Response> => {
   const { payload } = req
   const data = req.json ? await req.json() : {}
@@ -12,7 +63,45 @@ export const registerBusiness: PayloadHandler = async (req): Promise<Response> =
     return Response.json({ error: 'Missing required fields' }, { status: 400 })
   }
 
+  // Validate business name
+  const businessNameValidation = validateBusinessName(data.businessName)
+  if (!businessNameValidation.valid) {
+    return Response.json({ error: businessNameValidation.error }, { status: 400 })
+  }
+
+  // Validate email format
+  const emailValidation = validateEmail(data.email)
+  if (!emailValidation.valid) {
+    return Response.json({ error: emailValidation.error }, { status: 400 })
+  }
+
+  // Validate password strength
+  const passwordValidation = validatePassword(data.password)
+  if (!passwordValidation.valid) {
+    return Response.json({ error: passwordValidation.error }, { status: 400 })
+  }
+
   try {
+    // Check if email already exists
+    const existingUser = await payload.find({
+      collection: 'users',
+      where: {
+        email: { equals: data.email.toLowerCase().trim() },
+      },
+      limit: 1,
+      overrideAccess: true,
+    })
+
+    if (existingUser.totalDocs > 0) {
+      return Response.json(
+        {
+          error:
+            'An account with this email already exists. Please login or use a different email.',
+        },
+        { status: 409 },
+      )
+    }
+
     // 1. Create Business
     const business = await payload.create({
       collection: 'businesses',
@@ -29,6 +118,7 @@ export const registerBusiness: PayloadHandler = async (req): Promise<Response> =
         stock_accounting_method: 'FIFO (First In First Out)',
         start_date: new Date().toISOString(),
       },
+      overrideAccess: true,
     })
 
     // 2. Create Admin User

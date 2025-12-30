@@ -47,13 +47,7 @@ export const UserProfiles: CollectionConfig = {
       type: 'email',
       required: true,
     },
-    {
-      name: 'password',
-      type: 'text',
-      admin: {
-        hidden: true,
-      },
-    },
+    // NOTE: Password removed for security - authentication handled by Users collection with proper hashing
     {
       name: 'role',
       type: 'select',
