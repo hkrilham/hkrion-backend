@@ -70,24 +70,96 @@ export const registerBusiness: PayloadHandler = async (req): Promise<Response> =
         allow_decimal: boolean
       }[] = [
         // COUNT units
-        { name: 'Pieces', short_name: 'pcs', unit_group: 'COUNT', is_base_unit: true, allow_decimal: false },
-        { name: 'Box', short_name: 'box', unit_group: 'COUNT', is_base_unit: false, allow_decimal: false },
-        { name: 'Dozen', short_name: 'dz', unit_group: 'COUNT', is_base_unit: false, allow_decimal: false },
-        { name: 'Pack', short_name: 'pack', unit_group: 'COUNT', is_base_unit: false, allow_decimal: false },
+        {
+          name: 'Pieces',
+          short_name: 'pcs',
+          unit_group: 'COUNT',
+          is_base_unit: true,
+          allow_decimal: false,
+        },
+        {
+          name: 'Box',
+          short_name: 'box',
+          unit_group: 'COUNT',
+          is_base_unit: false,
+          allow_decimal: false,
+        },
+        {
+          name: 'Dozen',
+          short_name: 'dz',
+          unit_group: 'COUNT',
+          is_base_unit: false,
+          allow_decimal: false,
+        },
+        {
+          name: 'Pack',
+          short_name: 'pack',
+          unit_group: 'COUNT',
+          is_base_unit: false,
+          allow_decimal: false,
+        },
 
         // MASS units
-        { name: 'Kilogram', short_name: 'kg', unit_group: 'MASS', is_base_unit: true, allow_decimal: true },
-        { name: 'Gram', short_name: 'g', unit_group: 'MASS', is_base_unit: false, allow_decimal: false },
-        { name: 'Milligram', short_name: 'mg', unit_group: 'MASS', is_base_unit: false, allow_decimal: false },
+        {
+          name: 'Kilogram',
+          short_name: 'kg',
+          unit_group: 'MASS',
+          is_base_unit: true,
+          allow_decimal: true,
+        },
+        {
+          name: 'Gram',
+          short_name: 'g',
+          unit_group: 'MASS',
+          is_base_unit: false,
+          allow_decimal: false,
+        },
+        {
+          name: 'Milligram',
+          short_name: 'mg',
+          unit_group: 'MASS',
+          is_base_unit: false,
+          allow_decimal: false,
+        },
 
         // VOLUME units
-        { name: 'Liter', short_name: 'L', unit_group: 'VOLUME', is_base_unit: true, allow_decimal: true },
-        { name: 'Milliliter', short_name: 'mL', unit_group: 'VOLUME', is_base_unit: false, allow_decimal: false },
+        {
+          name: 'Liter',
+          short_name: 'L',
+          unit_group: 'VOLUME',
+          is_base_unit: true,
+          allow_decimal: true,
+        },
+        {
+          name: 'Milliliter',
+          short_name: 'mL',
+          unit_group: 'VOLUME',
+          is_base_unit: false,
+          allow_decimal: false,
+        },
 
         // LENGTH units
-        { name: 'Meter', short_name: 'm', unit_group: 'LENGTH', is_base_unit: true, allow_decimal: true },
-        { name: 'Centimeter', short_name: 'cm', unit_group: 'LENGTH', is_base_unit: false, allow_decimal: false },
-        { name: 'Millimeter', short_name: 'mm', unit_group: 'LENGTH', is_base_unit: false, allow_decimal: false },
+        {
+          name: 'Meter',
+          short_name: 'm',
+          unit_group: 'LENGTH',
+          is_base_unit: true,
+          allow_decimal: true,
+        },
+        {
+          name: 'Centimeter',
+          short_name: 'cm',
+          unit_group: 'LENGTH',
+          is_base_unit: false,
+          allow_decimal: false,
+        },
+        {
+          name: 'Millimeter',
+          short_name: 'mm',
+          unit_group: 'LENGTH',
+          is_base_unit: false,
+          allow_decimal: false,
+        },
       ]
 
       const createdUnits: Record<string, number> = {}
@@ -146,6 +218,33 @@ export const registerBusiness: PayloadHandler = async (req): Promise<Response> =
     } catch (unitsError) {
       console.error('Default units creation failed:', unitsError)
       // Continue even if units creation fails
+    }
+
+    // 5. Create Default Location
+    try {
+      console.log(`Creating default location for business: ${business.id}`)
+
+      await payload.create({
+        collection: 'business-locations',
+        data: {
+          name: 'Main Store',
+          location_id: `LOC-${business.id}-001`,
+          city: data.city,
+          state: data.state || 'Unknown',
+          zip_code: data.zipCode || '000000',
+          country: data.country,
+          landmark: data.landmark || '',
+          is_active: true,
+          is_default: true,
+          business: business.id,
+        },
+        overrideAccess: true,
+      })
+
+      console.log(`Default location created for business: ${business.id}`)
+    } catch (locationError) {
+      console.error('Default location creation failed:', locationError)
+      // Continue even if location creation fails
     }
 
     return Response.json(

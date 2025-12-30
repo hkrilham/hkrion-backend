@@ -54,6 +54,7 @@ This API uses custom endpoints. Default Payload CMS endpoints are disabled.
     { name: 'Warranties', description: 'Product warranty management' },
     { name: 'Price Groups', description: 'Selling price group management' },
     { name: 'Products', description: 'Product inventory management' },
+    { name: 'Locations', description: 'Business location management' },
   ],
   components: {
     securitySchemes: {
@@ -1415,6 +1416,129 @@ This API uses custom endpoints. Default Payload CMS endpoints are disabled.
           '401': { $ref: '#/components/responses/UnauthorizedError' },
           '404': { description: 'Product not found' },
           '409': { description: 'Cannot delete - has sales or purchase history' },
+        },
+      },
+    },
+
+    // ==================== BUSINESS LOCATIONS ====================
+    '/api/business-locations/list': {
+      get: {
+        tags: ['Locations'],
+        summary: 'List all locations',
+        description: 'Get all business locations',
+        parameters: [
+          { name: 'page', in: 'query', schema: { type: 'integer', default: 1 } },
+          { name: 'limit', in: 'query', schema: { type: 'integer', default: 10, maximum: 100 } },
+          {
+            name: 'search',
+            in: 'query',
+            schema: { type: 'string' },
+            description: 'Search by name, location_id, city',
+          },
+          { name: 'is_active', in: 'query', schema: { type: 'string', enum: ['true', 'false'] } },
+          { name: 'sort', in: 'query', schema: { type: 'string', default: 'name' } },
+        ],
+        responses: {
+          '200': { description: 'List of locations' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+        },
+      },
+    },
+    '/api/business-locations/create': {
+      post: {
+        tags: ['Locations'],
+        summary: 'Create a new location',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['name', 'city', 'state', 'zip_code', 'country'],
+                properties: {
+                  name: { type: 'string', example: 'Branch 1' },
+                  location_id: { type: 'string', description: 'Auto-generated if empty' },
+                  city: { type: 'string', example: 'Chennai' },
+                  state: { type: 'string', example: 'Tamil Nadu' },
+                  zip_code: { type: 'string', example: '600001' },
+                  country: { type: 'string', example: 'India' },
+                  mobile: { type: 'string' },
+                  email: { type: 'string' },
+                  is_active: { type: 'boolean', default: true },
+                  is_default: { type: 'boolean', default: false },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          '201': { description: 'Location created successfully' },
+          '400': { $ref: '#/components/responses/ValidationError' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '409': { description: 'Location name already exists' },
+        },
+      },
+    },
+    '/api/business-locations/{id}': {
+      get: {
+        tags: ['Locations'],
+        summary: 'Get a location',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        responses: {
+          '200': { description: 'Location details' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '404': { description: 'Location not found' },
+        },
+      },
+      patch: {
+        tags: ['Locations'],
+        summary: 'Update a location',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  name: { type: 'string' },
+                  city: { type: 'string' },
+                  state: { type: 'string' },
+                  zip_code: { type: 'string' },
+                  country: { type: 'string' },
+                  is_active: { type: 'boolean' },
+                  is_default: { type: 'boolean' },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          '200': { description: 'Location updated successfully' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '404': { description: 'Location not found' },
+        },
+      },
+      delete: {
+        tags: ['Locations'],
+        summary: 'Delete a location',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        responses: {
+          '200': { description: 'Location deleted successfully' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '404': { description: 'Location not found' },
+          '409': { description: 'Cannot delete default or only location' },
+        },
+      },
+    },
+    '/api/business-locations/{id}/set-default': {
+      post: {
+        tags: ['Locations'],
+        summary: 'Set as default location',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        responses: {
+          '200': { description: 'Default location updated' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '404': { description: 'Location not found' },
         },
       },
     },

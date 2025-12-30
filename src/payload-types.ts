@@ -369,14 +369,29 @@ export interface Media {
  */
 export interface BusinessLocation {
   id: number;
+  /**
+   * Location name (e.g., Main Store, Branch 1)
+   */
   name: string;
+  /**
+   * Location code (auto-generated if empty)
+   */
   location_id: string;
+  /**
+   * Nearby landmark
+   */
   landmark?: string | null;
   city: string;
   state: string;
   zip_code: string;
   country: string;
+  /**
+   * Phone number
+   */
   mobile?: string | null;
+  /**
+   * Email address
+   */
   email?: string | null;
   alternate_contact_number?: string | null;
   website?: string | null;
@@ -384,9 +399,18 @@ export interface BusinessLocation {
   invoice_layout_pos?: string | null;
   invoice_scheme_sale?: string | null;
   invoice_layout_sale?: string | null;
+  /**
+   * Default price group for this location
+   */
   default_selling_price_group?: (number | null) | SellingPriceGroup;
   business: number | Business;
+  /**
+   * Is this location active?
+   */
   is_active?: boolean | null;
+  /**
+   * Is this the default location?
+   */
   is_default?: boolean | null;
   updatedAt: string;
   createdAt: string;
