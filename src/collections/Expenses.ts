@@ -1,9 +1,20 @@
 import type { CollectionConfig } from 'payload'
+import { filterByBusiness } from '../hooks/filterByBusiness'
+import { setBusinessOnCreate } from '../hooks/setBusinessOnCreate'
 
 export const Expenses: CollectionConfig = {
   slug: 'expenses',
   admin: {
     useAsTitle: 'expense_number',
+  },
+  access: {
+    read: filterByBusiness,
+    update: filterByBusiness,
+    delete: filterByBusiness,
+    create: ({ req }) => !!req.user,
+  },
+  hooks: {
+    beforeChange: [setBusinessOnCreate],
   },
   fields: [
     {
@@ -16,6 +27,11 @@ export const Expenses: CollectionConfig = {
       type: 'relationship',
       relationTo: 'businesses',
       required: true,
+      admin: {
+        condition: (data, siblingData, { user }) => {
+          return user?.roles?.includes('admin') || false
+        },
+      },
     },
     {
       name: 'expense_date',
@@ -25,7 +41,7 @@ export const Expenses: CollectionConfig = {
     {
       name: 'category',
       type: 'relationship',
-      relationTo: 'expense-categories', // Need to create this one
+      relationTo: 'expense-categories',
     },
     {
       name: 'amount',

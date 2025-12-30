@@ -1,9 +1,20 @@
 import type { CollectionConfig } from 'payload'
+import { filterByBusiness } from '../hooks/filterByBusiness'
+import { setBusinessOnCreate } from '../hooks/setBusinessOnCreate'
 
 export const Purchases: CollectionConfig = {
   slug: 'purchases',
   admin: {
     useAsTitle: 'purchase_number',
+  },
+  access: {
+    read: filterByBusiness,
+    update: filterByBusiness,
+    delete: filterByBusiness,
+    create: ({ req }) => !!req.user,
+  },
+  hooks: {
+    beforeChange: [setBusinessOnCreate],
   },
   fields: [
     {
@@ -16,11 +27,16 @@ export const Purchases: CollectionConfig = {
       type: 'relationship',
       relationTo: 'businesses',
       required: true,
+      admin: {
+        condition: (data, siblingData, { user }) => {
+          return user?.roles?.includes('admin') || false
+        },
+      },
     },
     {
       name: 'supplier',
       type: 'relationship',
-      relationTo: 'contacts', // Suppliers are in contacts too
+      relationTo: 'contacts',
     },
     {
       name: 'purchase_date',

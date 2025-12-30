@@ -1,9 +1,20 @@
 import type { CollectionConfig } from 'payload'
+import { filterByBusiness } from '../hooks/filterByBusiness'
+import { setBusinessOnCreate } from '../hooks/setBusinessOnCreate'
 
 export const Sales: CollectionConfig = {
   slug: 'sales',
   admin: {
     useAsTitle: 'sale_number',
+  },
+  access: {
+    read: filterByBusiness,
+    update: filterByBusiness,
+    delete: filterByBusiness,
+    create: ({ req }) => !!req.user,
+  },
+  hooks: {
+    beforeChange: [setBusinessOnCreate],
   },
   fields: [
     {
@@ -16,6 +27,11 @@ export const Sales: CollectionConfig = {
       type: 'relationship',
       relationTo: 'businesses',
       required: true,
+      admin: {
+        condition: (data, siblingData, { user }) => {
+          return user?.roles?.includes('admin') || false
+        },
+      },
     },
     {
       name: 'customer',
@@ -24,7 +40,7 @@ export const Sales: CollectionConfig = {
     },
     {
       name: 'location',
-      type: 'text', // String location? or relationship? Schema says text but also has business_location_id
+      type: 'text',
     },
     {
       name: 'business_location',
@@ -78,7 +94,7 @@ export const Sales: CollectionConfig = {
       defaultValue: 'completed',
     },
     {
-      name: 'created_by_user', // "created_by" is a reserved field in Payload (managed auto) usually
+      name: 'created_by_user',
       type: 'relationship',
       relationTo: 'users',
     },

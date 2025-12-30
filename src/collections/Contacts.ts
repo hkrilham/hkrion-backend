@@ -1,9 +1,20 @@
 import type { CollectionConfig } from 'payload'
+import { filterByBusiness } from '../hooks/filterByBusiness'
+import { setBusinessOnCreate } from '../hooks/setBusinessOnCreate'
 
 export const Contacts: CollectionConfig = {
   slug: 'contacts',
   admin: {
-    useAsTitle: 'first_name', // Or business_name, tough choice. Maybe 'contact_id'
+    useAsTitle: 'first_name',
+  },
+  access: {
+    read: filterByBusiness,
+    update: filterByBusiness,
+    delete: filterByBusiness,
+    create: ({ req }) => !!req.user,
+  },
+  hooks: {
+    beforeChange: [setBusinessOnCreate],
   },
   fields: [
     {
@@ -65,7 +76,7 @@ export const Contacts: CollectionConfig = {
     {
       name: 'customer_group',
       type: 'relationship',
-      relationTo: 'customer-groups', // Assuming slug
+      relationTo: 'customer-groups',
     },
     {
       name: 'assigned_to',
@@ -128,6 +139,11 @@ export const Contacts: CollectionConfig = {
       type: 'relationship',
       relationTo: 'businesses',
       required: true,
+      admin: {
+        condition: (data, siblingData, { user }) => {
+          return user?.roles?.includes('admin') || false
+        },
+      },
     },
     {
       name: 'is_active',

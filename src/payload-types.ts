@@ -142,6 +142,19 @@ export interface Config {
     'subscription-history': SubscriptionHistory;
     'subscription-payments': SubscriptionPayment;
     'subscription-plans': SubscriptionPlan;
+    'user-profiles': UserProfile;
+    'user-roles': UserRole;
+    'subscription-usage': SubscriptionUsage;
+    'super-admins': SuperAdmin;
+    'user-locations': UserLocation;
+    'user-subscriptions': UserSubscription;
+    'customer-balance-details': CustomerBalanceDetail;
+    'system-logs': SystemLog;
+    'system-settings': SystemSetting;
+    taxes: Tax;
+    'team-members': TeamMember;
+    test: Test;
+    timezones: Timezone;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -224,6 +237,19 @@ export interface Config {
     'subscription-history': SubscriptionHistorySelect<false> | SubscriptionHistorySelect<true>;
     'subscription-payments': SubscriptionPaymentsSelect<false> | SubscriptionPaymentsSelect<true>;
     'subscription-plans': SubscriptionPlansSelect<false> | SubscriptionPlansSelect<true>;
+    'user-profiles': UserProfilesSelect<false> | UserProfilesSelect<true>;
+    'user-roles': UserRolesSelect<false> | UserRolesSelect<true>;
+    'subscription-usage': SubscriptionUsageSelect<false> | SubscriptionUsageSelect<true>;
+    'super-admins': SuperAdminsSelect<false> | SuperAdminsSelect<true>;
+    'user-locations': UserLocationsSelect<false> | UserLocationsSelect<true>;
+    'user-subscriptions': UserSubscriptionsSelect<false> | UserSubscriptionsSelect<true>;
+    'customer-balance-details': CustomerBalanceDetailsSelect<false> | CustomerBalanceDetailsSelect<true>;
+    'system-logs': SystemLogsSelect<false> | SystemLogsSelect<true>;
+    'system-settings': SystemSettingsSelect<false> | SystemSettingsSelect<true>;
+    taxes: TaxesSelect<false> | TaxesSelect<true>;
+    'team-members': TeamMembersSelect<false> | TeamMembersSelect<true>;
+    test: TestSelect<false> | TestSelect<true>;
+    timezones: TimezonesSelect<false> | TimezonesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -385,7 +411,7 @@ export interface Category {
   category_name: string;
   category_code?: string | null;
   description?: string | null;
-  business: number | Business;
+  business?: (number | null) | Business;
   parent_category?: (number | null) | Category;
   hsn_code?: string | null;
   updatedAt: string;
@@ -399,7 +425,7 @@ export interface Brand {
   id: number;
   brand_name: string;
   description?: string | null;
-  business: number | Business;
+  business?: (number | null) | Business;
   logo_url?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -486,7 +512,7 @@ export interface Contact {
   country?: string | null;
   zip_code?: string | null;
   landmark?: string | null;
-  business: number | Business;
+  business?: (number | null) | Business;
   is_active?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -512,7 +538,7 @@ export interface CustomerGroup {
 export interface Sale {
   id: number;
   sale_number: string;
-  business: number | Business;
+  business?: (number | null) | Business;
   customer?: (number | null) | Contact;
   location?: string | null;
   business_location?: (number | null) | BusinessLocation;
@@ -538,7 +564,7 @@ export interface Sale {
 export interface Purchase {
   id: number;
   purchase_number: string;
-  business: number | Business;
+  business?: (number | null) | Business;
   supplier?: (number | null) | Contact;
   purchase_date?: string | null;
   due_date?: string | null;
@@ -563,7 +589,7 @@ export interface Purchase {
 export interface Expense {
   id: number;
   expense_number: string;
-  business: number | Business;
+  business?: (number | null) | Business;
   expense_date: string;
   category?: (number | null) | ExpenseCategory;
   amount: number;
@@ -1899,6 +1925,269 @@ export interface SubscriptionPlan {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "user-profiles".
+ */
+export interface UserProfile {
+  id: number;
+  business?: (number | null) | Business;
+  username: string;
+  prefix?: string | null;
+  first_name: string;
+  last_name?: string | null;
+  email: string;
+  password?: string | null;
+  role?: ('admin' | 'manager' | 'cashier' | 'staff') | null;
+  role_id?: (number | null) | UserRole;
+  is_active?: boolean | null;
+  allow_login?: boolean | null;
+  enable_service_staff_pin?: boolean | null;
+  allow_selected_contacts?: boolean | null;
+  sales_commission_percentage?: number | null;
+  max_sales_discount_percent?: number | null;
+  date_of_birth?: string | null;
+  gender?: ('Male' | 'Female' | 'Other') | null;
+  marital_status?: ('Single' | 'Married' | 'Divorced' | 'Widowed') | null;
+  blood_group?: string | null;
+  mobile_number?: string | null;
+  alternate_contact_number?: string | null;
+  family_contact_number?: string | null;
+  facebook_link?: string | null;
+  twitter_link?: string | null;
+  social_media_1?: string | null;
+  social_media_2?: string | null;
+  custom_field_1?: string | null;
+  custom_field_2?: string | null;
+  custom_field_3?: string | null;
+  custom_field_4?: string | null;
+  id_proof_name?: string | null;
+  id_proof_number?: string | null;
+  guardian_name?: string | null;
+  permanent_address?: string | null;
+  current_address?: string | null;
+  account_holder_name?: string | null;
+  account_number?: string | null;
+  bank_name?: string | null;
+  bank_identifier_code?: string | null;
+  branch?: string | null;
+  tax_payer_id?: string | null;
+  access_locations?: (number | BusinessLocation)[] | null;
+  created_by?: (number | null) | User;
+  updated_by?: (number | null) | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "user-roles".
+ */
+export interface UserRole {
+  id: number;
+  business?: (number | null) | Business;
+  name: string;
+  description?: string | null;
+  is_default?: boolean | null;
+  is_active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscription-usage".
+ */
+export interface SubscriptionUsage {
+  id: number;
+  business: number | Business;
+  subscription?: (number | null) | BusinessSubscription;
+  usage_type: string;
+  current_usage?: number | null;
+  limit_value?: number | null;
+  period_start: string;
+  period_end: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "super-admins".
+ */
+export interface SuperAdmin {
+  id: number;
+  user: number | User;
+  email: string;
+  full_name?: string | null;
+  is_active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "user-locations".
+ */
+export interface UserLocation {
+  id: number;
+  user: number | User;
+  business_location: number | BusinessLocation;
+  is_primary?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "user-subscriptions".
+ */
+export interface UserSubscription {
+  id: number;
+  user: number | User;
+  plan: number | SubscriptionPlan;
+  status: 'active' | 'expired' | 'cancelled' | 'pending';
+  start_date?: string | null;
+  end_date?: string | null;
+  auto_renew?: boolean | null;
+  payment_method?: string | null;
+  payment_status?: string | null;
+  amount_paid?: number | null;
+  next_billing_date?: string | null;
+  cancelled_at?: string | null;
+  cancellation_reason?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "customer-balance-details".
+ */
+export interface CustomerBalanceDetail {
+  id: number;
+  customer?: (number | null) | Contact;
+  business?: (number | null) | Business;
+  contact_id?: string | null;
+  first_name?: string | null;
+  last_name?: string | null;
+  business_name?: string | null;
+  mobile?: string | null;
+  email?: string | null;
+  total_due_amount?: number | null;
+  credit_sales_count?: number | null;
+  oldest_due_date?: string | null;
+  latest_due_date?: string | null;
+  calculated_due_amount?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "system-logs".
+ */
+export interface SystemLog {
+  id: number;
+  level: string;
+  service: string;
+  message: string;
+  details?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  user?: (number | null) | User;
+  ip_address?: string | null;
+  user_agent?: string | null;
+  request_id?: string | null;
+  duration?: number | null;
+  status_code?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "system-settings".
+ */
+export interface SystemSetting {
+  id: number;
+  business?: (number | null) | Business;
+  theme_color?: string | null;
+  default_language?: string | null;
+  default_timezone?: string | null;
+  date_format?: string | null;
+  time_format?: string | null;
+  currency_symbol_position?: ('before' | 'after') | null;
+  decimal_places?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "taxes".
+ */
+export interface Tax {
+  id: number;
+  business?: (number | null) | Business;
+  name: string;
+  rate: number;
+  type?: ('percentage' | 'fixed') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-members".
+ */
+export interface TeamMember {
+  id: number;
+  name: string;
+  role: string;
+  bio?: string | null;
+  image_url?: string | null;
+  social_links?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "test".
+ */
+export interface Test {
+  id: number;
+  name?: string | null;
+  imei?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "timezones".
+ */
+export interface Timezone {
+  id: number;
+  name: string;
+  display_name: string;
+  offset_hours: number;
+  offset_minutes?: number | null;
+  enabled?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -2220,6 +2509,58 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'subscription-plans';
         value: number | SubscriptionPlan;
+      } | null)
+    | ({
+        relationTo: 'user-profiles';
+        value: number | UserProfile;
+      } | null)
+    | ({
+        relationTo: 'user-roles';
+        value: number | UserRole;
+      } | null)
+    | ({
+        relationTo: 'subscription-usage';
+        value: number | SubscriptionUsage;
+      } | null)
+    | ({
+        relationTo: 'super-admins';
+        value: number | SuperAdmin;
+      } | null)
+    | ({
+        relationTo: 'user-locations';
+        value: number | UserLocation;
+      } | null)
+    | ({
+        relationTo: 'user-subscriptions';
+        value: number | UserSubscription;
+      } | null)
+    | ({
+        relationTo: 'customer-balance-details';
+        value: number | CustomerBalanceDetail;
+      } | null)
+    | ({
+        relationTo: 'system-logs';
+        value: number | SystemLog;
+      } | null)
+    | ({
+        relationTo: 'system-settings';
+        value: number | SystemSetting;
+      } | null)
+    | ({
+        relationTo: 'taxes';
+        value: number | Tax;
+      } | null)
+    | ({
+        relationTo: 'team-members';
+        value: number | TeamMember;
+      } | null)
+    | ({
+        relationTo: 'test';
+        value: number | Test;
+      } | null)
+    | ({
+        relationTo: 'timezones';
+        value: number | Timezone;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -3639,6 +3980,232 @@ export interface SubscriptionPlansSelect<T extends boolean = true> {
   is_active?: T;
   is_popular?: T;
   sort_order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "user-profiles_select".
+ */
+export interface UserProfilesSelect<T extends boolean = true> {
+  business?: T;
+  username?: T;
+  prefix?: T;
+  first_name?: T;
+  last_name?: T;
+  email?: T;
+  password?: T;
+  role?: T;
+  role_id?: T;
+  is_active?: T;
+  allow_login?: T;
+  enable_service_staff_pin?: T;
+  allow_selected_contacts?: T;
+  sales_commission_percentage?: T;
+  max_sales_discount_percent?: T;
+  date_of_birth?: T;
+  gender?: T;
+  marital_status?: T;
+  blood_group?: T;
+  mobile_number?: T;
+  alternate_contact_number?: T;
+  family_contact_number?: T;
+  facebook_link?: T;
+  twitter_link?: T;
+  social_media_1?: T;
+  social_media_2?: T;
+  custom_field_1?: T;
+  custom_field_2?: T;
+  custom_field_3?: T;
+  custom_field_4?: T;
+  id_proof_name?: T;
+  id_proof_number?: T;
+  guardian_name?: T;
+  permanent_address?: T;
+  current_address?: T;
+  account_holder_name?: T;
+  account_number?: T;
+  bank_name?: T;
+  bank_identifier_code?: T;
+  branch?: T;
+  tax_payer_id?: T;
+  access_locations?: T;
+  created_by?: T;
+  updated_by?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "user-roles_select".
+ */
+export interface UserRolesSelect<T extends boolean = true> {
+  business?: T;
+  name?: T;
+  description?: T;
+  is_default?: T;
+  is_active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscription-usage_select".
+ */
+export interface SubscriptionUsageSelect<T extends boolean = true> {
+  business?: T;
+  subscription?: T;
+  usage_type?: T;
+  current_usage?: T;
+  limit_value?: T;
+  period_start?: T;
+  period_end?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "super-admins_select".
+ */
+export interface SuperAdminsSelect<T extends boolean = true> {
+  user?: T;
+  email?: T;
+  full_name?: T;
+  is_active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "user-locations_select".
+ */
+export interface UserLocationsSelect<T extends boolean = true> {
+  user?: T;
+  business_location?: T;
+  is_primary?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "user-subscriptions_select".
+ */
+export interface UserSubscriptionsSelect<T extends boolean = true> {
+  user?: T;
+  plan?: T;
+  status?: T;
+  start_date?: T;
+  end_date?: T;
+  auto_renew?: T;
+  payment_method?: T;
+  payment_status?: T;
+  amount_paid?: T;
+  next_billing_date?: T;
+  cancelled_at?: T;
+  cancellation_reason?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "customer-balance-details_select".
+ */
+export interface CustomerBalanceDetailsSelect<T extends boolean = true> {
+  customer?: T;
+  business?: T;
+  contact_id?: T;
+  first_name?: T;
+  last_name?: T;
+  business_name?: T;
+  mobile?: T;
+  email?: T;
+  total_due_amount?: T;
+  credit_sales_count?: T;
+  oldest_due_date?: T;
+  latest_due_date?: T;
+  calculated_due_amount?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "system-logs_select".
+ */
+export interface SystemLogsSelect<T extends boolean = true> {
+  level?: T;
+  service?: T;
+  message?: T;
+  details?: T;
+  user?: T;
+  ip_address?: T;
+  user_agent?: T;
+  request_id?: T;
+  duration?: T;
+  status_code?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "system-settings_select".
+ */
+export interface SystemSettingsSelect<T extends boolean = true> {
+  business?: T;
+  theme_color?: T;
+  default_language?: T;
+  default_timezone?: T;
+  date_format?: T;
+  time_format?: T;
+  currency_symbol_position?: T;
+  decimal_places?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "taxes_select".
+ */
+export interface TaxesSelect<T extends boolean = true> {
+  business?: T;
+  name?: T;
+  rate?: T;
+  type?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-members_select".
+ */
+export interface TeamMembersSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  bio?: T;
+  image_url?: T;
+  social_links?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "test_select".
+ */
+export interface TestSelect<T extends boolean = true> {
+  name?: T;
+  imei?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "timezones_select".
+ */
+export interface TimezonesSelect<T extends boolean = true> {
+  name?: T;
+  display_name?: T;
+  offset_hours?: T;
+  offset_minutes?: T;
+  enabled?: T;
   updatedAt?: T;
   createdAt?: T;
 }

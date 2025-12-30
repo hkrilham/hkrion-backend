@@ -80,6 +80,19 @@ import { SubscriptionFeatures } from './collections/SubscriptionFeatures'
 import { SubscriptionHistory } from './collections/SubscriptionHistory'
 import { SubscriptionPayments } from './collections/SubscriptionPayments'
 import { SubscriptionPlans } from './collections/SubscriptionPlans'
+import { UserProfiles } from './collections/UserProfiles'
+import { UserRoles } from './collections/UserRoles'
+import { SubscriptionUsage } from './collections/SubscriptionUsage'
+import { SuperAdmins } from './collections/SuperAdmins'
+import { UserLocations } from './collections/UserLocations'
+import { UserSubscriptions } from './collections/UserSubscriptions'
+import { CustomerBalanceDetails } from './collections/CustomerBalanceDetails'
+import { SystemLogs } from './collections/SystemLogs'
+import { SystemSettings } from './collections/SystemSettings'
+import { Taxes } from './collections/Taxes'
+import { TeamMembers } from './collections/TeamMembers'
+import { Test } from './collections/Test'
+import { Timezones } from './collections/Timezones'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -167,6 +180,19 @@ export default buildConfig({
     SubscriptionHistory,
     SubscriptionPayments,
     SubscriptionPlans,
+    UserProfiles,
+    UserRoles,
+    SubscriptionUsage,
+    SuperAdmins,
+    UserLocations,
+    UserSubscriptions,
+    CustomerBalanceDetails,
+    SystemLogs,
+    SystemSettings,
+    Taxes,
+    TeamMembers,
+    Test,
+    Timezones,
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
