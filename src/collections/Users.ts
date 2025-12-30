@@ -8,6 +8,21 @@ export const Users: CollectionConfig = {
   auth: true,
   fields: [
     // Email added by default
-    // Add more fields as needed
+    {
+      name: 'business',
+      type: 'relationship',
+      relationTo: 'businesses',
+    },
+    {
+      name: 'roles', // Payload auth adds default roles but we might want custom ones or just rely on payload
+      type: 'select',
+      hasMany: true,
+      options: [
+        { label: 'Admin', value: 'admin' },
+        { label: 'User', value: 'user' },
+        { label: 'Cashier', value: 'cashier' },
+      ],
+      defaultValue: ['user'],
+    },
   ],
 }

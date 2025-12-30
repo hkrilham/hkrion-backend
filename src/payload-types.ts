@@ -69,6 +69,79 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    businesses: Business;
+    'business-locations': BusinessLocation;
+    categories: Category;
+    brands: Brand;
+    products: Product;
+    contacts: Contact;
+    sales: Sale;
+    purchases: Purchase;
+    expenses: Expense;
+    'expense-categories': ExpenseCategory;
+    'customer-groups': CustomerGroup;
+    'about-page-cms': AboutPageCm;
+    achievements: Achievement;
+    'bank-accounts': BankAccount;
+    'bank-transfer-orders': BankTransferOrder;
+    'business-domains': BusinessDomain;
+    'business-label-settings': BusinessLabelSetting;
+    'business-label-templates': BusinessLabelTemplate;
+    'business-payment-methods': BusinessPaymentMethod;
+    'business-settings': BusinessSetting;
+    'business-subscriptions': BusinessSubscription;
+    'business-trial-usage': BusinessTrialUsage;
+    'contact-faqs': ContactFaq;
+    'contact-info': ContactInfo;
+    'contact-page-cms': ContactPageCm;
+    'contact-submissions': ContactSubmission;
+    'selling-price-groups': SellingPriceGroup;
+    units: Unit;
+    warranties: Warranty;
+    'subscription-packages': SubscriptionPackage;
+    'global-payment-methods': GlobalPaymentMethod;
+    coupons: Coupon;
+    countries: Country;
+    'country-codes': CountryCode;
+    currencies: Currency;
+    discounts: Discount;
+    'discount-products': DiscountProduct;
+    'homepage-cms': HomepageCm;
+    'label-print-history': LabelPrintHistory;
+    'office-locations': OfficeLocation;
+    'opening-stock': OpeningStock;
+    'package-features': PackageFeature;
+    'permission-requests': PermissionRequest;
+    permissions: Permission;
+    prefixes: Prefix;
+    'product-imei-serial': ProductImeiSerial;
+    'product-locations': ProductLocation;
+    'product-stock-price': ProductStockPrice;
+    'purchase-items': PurchaseItem;
+    'purchase-return-items': PurchaseReturnItem;
+    'purchase-returns': PurchaseReturn;
+    'return-items': ReturnItem;
+    'role-permissions': RolePermission;
+    'sale-items': SaleItem;
+    'sale-payments': SalePayment;
+    'sales-commission-agents': SalesCommissionAgent;
+    'sales-returns': SalesReturn;
+    'seo-analytics': SeoAnalytic;
+    'seo-issues': SeoIssue;
+    'seo-keywords': SeoKeyword;
+    'seo-pages': SeoPage;
+    'seo-settings': SeoSetting;
+    'site-settings': SiteSetting;
+    'stock-adjustment-history': StockAdjustmentHistory;
+    'stock-adjustment-items': StockAdjustmentItem;
+    'stock-adjustments': StockAdjustment;
+    'stock-transfer-item-imeis': StockTransferItemImei;
+    'stock-transfer-items': StockTransferItem;
+    'stock-transfers': StockTransfer;
+    'subscription-features': SubscriptionFeature;
+    'subscription-history': SubscriptionHistory;
+    'subscription-payments': SubscriptionPayment;
+    'subscription-plans': SubscriptionPlan;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,13 +151,86 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    businesses: BusinessesSelect<false> | BusinessesSelect<true>;
+    'business-locations': BusinessLocationsSelect<false> | BusinessLocationsSelect<true>;
+    categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    brands: BrandsSelect<false> | BrandsSelect<true>;
+    products: ProductsSelect<false> | ProductsSelect<true>;
+    contacts: ContactsSelect<false> | ContactsSelect<true>;
+    sales: SalesSelect<false> | SalesSelect<true>;
+    purchases: PurchasesSelect<false> | PurchasesSelect<true>;
+    expenses: ExpensesSelect<false> | ExpensesSelect<true>;
+    'expense-categories': ExpenseCategoriesSelect<false> | ExpenseCategoriesSelect<true>;
+    'customer-groups': CustomerGroupsSelect<false> | CustomerGroupsSelect<true>;
+    'about-page-cms': AboutPageCmsSelect<false> | AboutPageCmsSelect<true>;
+    achievements: AchievementsSelect<false> | AchievementsSelect<true>;
+    'bank-accounts': BankAccountsSelect<false> | BankAccountsSelect<true>;
+    'bank-transfer-orders': BankTransferOrdersSelect<false> | BankTransferOrdersSelect<true>;
+    'business-domains': BusinessDomainsSelect<false> | BusinessDomainsSelect<true>;
+    'business-label-settings': BusinessLabelSettingsSelect<false> | BusinessLabelSettingsSelect<true>;
+    'business-label-templates': BusinessLabelTemplatesSelect<false> | BusinessLabelTemplatesSelect<true>;
+    'business-payment-methods': BusinessPaymentMethodsSelect<false> | BusinessPaymentMethodsSelect<true>;
+    'business-settings': BusinessSettingsSelect<false> | BusinessSettingsSelect<true>;
+    'business-subscriptions': BusinessSubscriptionsSelect<false> | BusinessSubscriptionsSelect<true>;
+    'business-trial-usage': BusinessTrialUsageSelect<false> | BusinessTrialUsageSelect<true>;
+    'contact-faqs': ContactFaqsSelect<false> | ContactFaqsSelect<true>;
+    'contact-info': ContactInfoSelect<false> | ContactInfoSelect<true>;
+    'contact-page-cms': ContactPageCmsSelect<false> | ContactPageCmsSelect<true>;
+    'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
+    'selling-price-groups': SellingPriceGroupsSelect<false> | SellingPriceGroupsSelect<true>;
+    units: UnitsSelect<false> | UnitsSelect<true>;
+    warranties: WarrantiesSelect<false> | WarrantiesSelect<true>;
+    'subscription-packages': SubscriptionPackagesSelect<false> | SubscriptionPackagesSelect<true>;
+    'global-payment-methods': GlobalPaymentMethodsSelect<false> | GlobalPaymentMethodsSelect<true>;
+    coupons: CouponsSelect<false> | CouponsSelect<true>;
+    countries: CountriesSelect<false> | CountriesSelect<true>;
+    'country-codes': CountryCodesSelect<false> | CountryCodesSelect<true>;
+    currencies: CurrenciesSelect<false> | CurrenciesSelect<true>;
+    discounts: DiscountsSelect<false> | DiscountsSelect<true>;
+    'discount-products': DiscountProductsSelect<false> | DiscountProductsSelect<true>;
+    'homepage-cms': HomepageCmsSelect<false> | HomepageCmsSelect<true>;
+    'label-print-history': LabelPrintHistorySelect<false> | LabelPrintHistorySelect<true>;
+    'office-locations': OfficeLocationsSelect<false> | OfficeLocationsSelect<true>;
+    'opening-stock': OpeningStockSelect<false> | OpeningStockSelect<true>;
+    'package-features': PackageFeaturesSelect<false> | PackageFeaturesSelect<true>;
+    'permission-requests': PermissionRequestsSelect<false> | PermissionRequestsSelect<true>;
+    permissions: PermissionsSelect<false> | PermissionsSelect<true>;
+    prefixes: PrefixesSelect<false> | PrefixesSelect<true>;
+    'product-imei-serial': ProductImeiSerialSelect<false> | ProductImeiSerialSelect<true>;
+    'product-locations': ProductLocationsSelect<false> | ProductLocationsSelect<true>;
+    'product-stock-price': ProductStockPriceSelect<false> | ProductStockPriceSelect<true>;
+    'purchase-items': PurchaseItemsSelect<false> | PurchaseItemsSelect<true>;
+    'purchase-return-items': PurchaseReturnItemsSelect<false> | PurchaseReturnItemsSelect<true>;
+    'purchase-returns': PurchaseReturnsSelect<false> | PurchaseReturnsSelect<true>;
+    'return-items': ReturnItemsSelect<false> | ReturnItemsSelect<true>;
+    'role-permissions': RolePermissionsSelect<false> | RolePermissionsSelect<true>;
+    'sale-items': SaleItemsSelect<false> | SaleItemsSelect<true>;
+    'sale-payments': SalePaymentsSelect<false> | SalePaymentsSelect<true>;
+    'sales-commission-agents': SalesCommissionAgentsSelect<false> | SalesCommissionAgentsSelect<true>;
+    'sales-returns': SalesReturnsSelect<false> | SalesReturnsSelect<true>;
+    'seo-analytics': SeoAnalyticsSelect<false> | SeoAnalyticsSelect<true>;
+    'seo-issues': SeoIssuesSelect<false> | SeoIssuesSelect<true>;
+    'seo-keywords': SeoKeywordsSelect<false> | SeoKeywordsSelect<true>;
+    'seo-pages': SeoPagesSelect<false> | SeoPagesSelect<true>;
+    'seo-settings': SeoSettingsSelect<false> | SeoSettingsSelect<true>;
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+    'stock-adjustment-history': StockAdjustmentHistorySelect<false> | StockAdjustmentHistorySelect<true>;
+    'stock-adjustment-items': StockAdjustmentItemsSelect<false> | StockAdjustmentItemsSelect<true>;
+    'stock-adjustments': StockAdjustmentsSelect<false> | StockAdjustmentsSelect<true>;
+    'stock-transfer-item-imeis': StockTransferItemImeisSelect<false> | StockTransferItemImeisSelect<true>;
+    'stock-transfer-items': StockTransferItemsSelect<false> | StockTransferItemsSelect<true>;
+    'stock-transfers': StockTransfersSelect<false> | StockTransfersSelect<true>;
+    'subscription-features': SubscriptionFeaturesSelect<false> | SubscriptionFeaturesSelect<true>;
+    'subscription-history': SubscriptionHistorySelect<false> | SubscriptionHistorySelect<true>;
+    'subscription-payments': SubscriptionPaymentsSelect<false> | SubscriptionPaymentsSelect<true>;
+    'subscription-plans': SubscriptionPlansSelect<false> | SubscriptionPlansSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: string;
+    defaultIDType: number;
   };
   fallbackLocale: null;
   globals: {};
@@ -121,7 +267,9 @@ export interface UserAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: string;
+  id: number;
+  business?: (number | null) | Business;
+  roles?: ('admin' | 'user' | 'cashier')[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -142,10 +290,38 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "businesses".
+ */
+export interface Business {
+  id: number;
+  business_name: string;
+  start_date?: string | null;
+  logo_url?: string | null;
+  business_contact?: string | null;
+  country: string;
+  city: string;
+  landmark: string;
+  state: string;
+  zip_code: string;
+  currency: string;
+  website?: string | null;
+  alternate_contact?: string | null;
+  timezone: string;
+  tax1_name?: string | null;
+  tax1_number?: string | null;
+  tax2_name?: string | null;
+  tax2_number?: string | null;
+  financial_year_start: string;
+  stock_accounting_method: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
-  id: string;
+  id: number;
   alt: string;
   updatedAt: string;
   createdAt: string;
@@ -161,10 +337,1572 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "business-locations".
+ */
+export interface BusinessLocation {
+  id: number;
+  name: string;
+  location_id: string;
+  landmark?: string | null;
+  city: string;
+  state: string;
+  zip_code: string;
+  country: string;
+  mobile?: string | null;
+  email?: string | null;
+  alternate_contact_number?: string | null;
+  website?: string | null;
+  invoice_scheme_pos?: string | null;
+  invoice_layout_pos?: string | null;
+  invoice_scheme_sale?: string | null;
+  invoice_layout_sale?: string | null;
+  default_selling_price_group?: (number | null) | SellingPriceGroup;
+  business: number | Business;
+  is_active?: boolean | null;
+  is_default?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "selling-price-groups".
+ */
+export interface SellingPriceGroup {
+  id: number;
+  group_name: string;
+  description?: string | null;
+  color?: string | null;
+  business: number | Business;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: number;
+  category_name: string;
+  category_code?: string | null;
+  description?: string | null;
+  business: number | Business;
+  parent_category?: (number | null) | Category;
+  hsn_code?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "brands".
+ */
+export interface Brand {
+  id: number;
+  brand_name: string;
+  description?: string | null;
+  business: number | Business;
+  logo_url?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products".
+ */
+export interface Product {
+  id: number;
+  name: string;
+  business?: (number | null) | Business;
+  image_url?: string | null;
+  sku?: string | null;
+  barcode_type?: string | null;
+  status?: ('active' | 'inactive') | null;
+  description?: string | null;
+  is_serial_imei?: boolean | null;
+  units?: (number | null) | Unit;
+  warranties?: (number | null) | Warranty;
+  brand?: (number | null) | Brand;
+  category?: (number | null) | Category;
+  manage_stock?: boolean | null;
+  alert_quantity?: number | null;
+  expiry_date?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "units".
+ */
+export interface Unit {
+  id: number;
+  name: string;
+  short_name: string;
+  allow_decimal?: boolean | null;
+  business?: (number | null) | Business;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "warranties".
+ */
+export interface Warranty {
+  id: number;
+  name: string;
+  description?: string | null;
+  duration: number;
+  duration_type?: ('days' | 'months' | 'years') | null;
+  business?: (number | null) | Business;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contacts".
+ */
+export interface Contact {
+  id: number;
+  contact_id: string;
+  contact_type?: ('customer' | 'supplier' | 'both') | null;
+  customer_type?: ('individual' | 'business') | null;
+  prefix?: string | null;
+  first_name?: string | null;
+  last_name?: string | null;
+  business_name?: string | null;
+  email?: string | null;
+  mobile?: string | null;
+  alternate_contact_number?: string | null;
+  landline?: string | null;
+  customer_group?: (number | null) | CustomerGroup;
+  assigned_to?: (number | null) | User;
+  tax_number?: string | null;
+  credit_limit?: number | null;
+  pay_term?: string | null;
+  opening_balance?: number | null;
+  advance_balance?: number | null;
+  address_line_1?: string | null;
+  address_line_2?: string | null;
+  city?: string | null;
+  state?: string | null;
+  country?: string | null;
+  zip_code?: string | null;
+  landmark?: string | null;
+  business: number | Business;
+  is_active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "customer-groups".
+ */
+export interface CustomerGroup {
+  id: number;
+  name: string;
+  calculation_percentage?: number | null;
+  price_calculation_type?: ('percentage' | 'selling_price_group') | null;
+  business: number | Business;
+  is_active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sales".
+ */
+export interface Sale {
+  id: number;
+  sale_number: string;
+  business: number | Business;
+  customer?: (number | null) | Contact;
+  location?: string | null;
+  business_location?: (number | null) | BusinessLocation;
+  transaction_date: string;
+  subtotal: number;
+  discount?: number | null;
+  tax?: number | null;
+  shipping?: number | null;
+  total: number;
+  payment_method?: string | null;
+  status?: ('completed' | 'pending' | 'draft' | 'cancelled') | null;
+  created_by_user?: (number | null) | User;
+  due_amount?: number | null;
+  is_credit_sale?: boolean | null;
+  total_paid?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "purchases".
+ */
+export interface Purchase {
+  id: number;
+  purchase_number: string;
+  business: number | Business;
+  supplier?: (number | null) | Contact;
+  purchase_date?: string | null;
+  due_date?: string | null;
+  status?: ('received' | 'pending' | 'ordered') | null;
+  subtotal?: number | null;
+  tax_amount?: number | null;
+  discount_amount?: number | null;
+  discount_type?: ('fixed' | 'percentage') | null;
+  total_amount: number;
+  paid_amount?: number | null;
+  payment_status?: ('paid' | 'due' | 'partial' | 'pending') | null;
+  payment_method?: string | null;
+  reference_number?: string | null;
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "expenses".
+ */
+export interface Expense {
+  id: number;
+  expense_number: string;
+  business: number | Business;
+  expense_date: string;
+  category?: (number | null) | ExpenseCategory;
+  amount: number;
+  payment_method?: string | null;
+  description?: string | null;
+  location?: (number | null) | BusinessLocation;
+  supplier?: (number | null) | Contact;
+  user?: (number | null) | User;
+  receipt_url?: string | null;
+  status?: ('approved' | 'pending' | 'rejected') | null;
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "expense-categories".
+ */
+export interface ExpenseCategory {
+  id: number;
+  name: string;
+  business: number | Business;
+  description?: string | null;
+  color?: string | null;
+  is_active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-page-cms".
+ */
+export interface AboutPageCm {
+  id: number;
+  section_name: string;
+  section_type: string;
+  title?: string | null;
+  subtitle?: string | null;
+  description?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  image_url?: string | null;
+  is_active?: boolean | null;
+  sort_order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "achievements".
+ */
+export interface Achievement {
+  id: number;
+  title: string;
+  description?: string | null;
+  year: string;
+  icon?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "bank-accounts".
+ */
+export interface BankAccount {
+  id: number;
+  account_name: string;
+  account_number: string;
+  bank_name: string;
+  ifsc_code?: string | null;
+  branch_name?: string | null;
+  upi_id?: string | null;
+  qr_code_url?: string | null;
+  is_primary?: boolean | null;
+  is_active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "bank-transfer-orders".
+ */
+export interface BankTransferOrder {
+  id: number;
+  order_number: string;
+  business?: (number | null) | Business;
+  package?: (number | null) | SubscriptionPackage;
+  bank_account?: (number | null) | BankAccount;
+  original_amount: number;
+  discount_amount?: number | null;
+  final_amount: number;
+  currency?: string | null;
+  status?: string | null;
+  proof_url?: string | null;
+  proof_uploaded_at?: string | null;
+  transaction_reference?: string | null;
+  user_notes?: string | null;
+  admin_notes?: string | null;
+  verified_by?: (number | null) | User;
+  verified_at?: string | null;
+  rejected_reason?: string | null;
+  subscription_id?: string | null;
+  expires_at?: string | null;
+  coupon?: (number | null) | Coupon;
+  coupon_code?: string | null;
+  subtotal_amount?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscription-packages".
+ */
+export interface SubscriptionPackage {
+  id: number;
+  package_name: string;
+  package_code: string;
+  description?: string | null;
+  price: number;
+  currency?: string | null;
+  billing_cycle?: string | null;
+  features?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  max_users?: number | null;
+  max_locations?: number | null;
+  max_products?: number | null;
+  max_storage_gb?: number | null;
+  is_active?: boolean | null;
+  is_popular?: boolean | null;
+  sort_order?: number | null;
+  created_by?: (number | null) | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "coupons".
+ */
+export interface Coupon {
+  id: number;
+  code: string;
+  discount_type: string;
+  discount_value: number;
+  min_purchase_amount?: number | null;
+  valid_from?: string | null;
+  valid_until?: string | null;
+  usage_limit?: number | null;
+  usage_count?: number | null;
+  is_active?: boolean | null;
+  applicable_plans?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  created_by?: (number | null) | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "business-domains".
+ */
+export interface BusinessDomain {
+  id: number;
+  business: number | Business;
+  domain: string;
+  type: string;
+  is_verified: boolean;
+  has_ssl: boolean;
+  status: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "business-label-settings".
+ */
+export interface BusinessLabelSetting {
+  id: number;
+  business: number | Business;
+  default_label_format?: string | null;
+  default_labels_per_row?: number | null;
+  default_barcode_type?: string | null;
+  default_barcode_size?: string | null;
+  show_product_name?: boolean | null;
+  show_sku?: boolean | null;
+  show_price?: boolean | null;
+  show_barcode?: boolean | null;
+  show_business_name?: boolean | null;
+  show_business_logo?: boolean | null;
+  custom_label_width?: number | null;
+  custom_label_height?: number | null;
+  currency_symbol?: string | null;
+  currency_position?: string | null;
+  price_decimal_places?: number | null;
+  default_printer_type?: string | null;
+  default_printer_name?: string | null;
+  default_printer_port?: string | null;
+  print_speed?: number | null;
+  print_density?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "business-label-templates".
+ */
+export interface BusinessLabelTemplate {
+  id: number;
+  business: number | Business;
+  template_name: string;
+  template_description?: string | null;
+  is_default?: boolean | null;
+  is_active?: boolean | null;
+  label_width: number;
+  label_height: number;
+  gap_height?: number | null;
+  layout_config:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  preview_image_url?: string | null;
+  created_by?: (number | null) | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "business-payment-methods".
+ */
+export interface BusinessPaymentMethod {
+  id: number;
+  business: number | Business;
+  global_payment_method: number | GlobalPaymentMethod;
+  is_active?: boolean | null;
+  is_default?: boolean | null;
+  name: string;
+  code: string;
+  icon?: string | null;
+  sort_order?: number | null;
+  created_by?: (number | null) | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "global-payment-methods".
+ */
+export interface GlobalPaymentMethod {
+  id: number;
+  name: string;
+  code: string;
+  icon?: string | null;
+  is_active?: boolean | null;
+  is_available_for_business?: boolean | null;
+  sort_order?: number | null;
+  created_by?: (number | null) | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "business-settings".
+ */
+export interface BusinessSetting {
+  id: number;
+  business?: (number | null) | Business;
+  setting_type: string;
+  settings?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "business-subscriptions".
+ */
+export interface BusinessSubscription {
+  id: number;
+  business: number | Business;
+  package: number | SubscriptionPackage;
+  status: string;
+  start_date: string;
+  end_date?: string | null;
+  trial_end_date?: string | null;
+  auto_renew?: boolean | null;
+  current_price: number;
+  billing_cycle?: string | null;
+  next_billing_date?: string | null;
+  payment_method?: (number | null) | SubscriptionPayment;
+  notes?: string | null;
+  cancelled_at?: string | null;
+  cancelled_by?: (number | null) | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscription-payments".
+ */
+export interface SubscriptionPayment {
+  id: number;
+  subscription: number | BusinessSubscription;
+  amount: number;
+  currency?: string | null;
+  payment_method?: string | null;
+  payment_status?: string | null;
+  transaction_id?: string | null;
+  payment_date?: string | null;
+  due_date?: string | null;
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "business-trial-usage".
+ */
+export interface BusinessTrialUsage {
+  id: number;
+  business: number | Business;
+  trial_used_at?: string | null;
+  is_manual_override?: boolean | null;
+  overridden_by?: (number | null) | User;
+  subscription?: (number | null) | BusinessSubscription;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-faqs".
+ */
+export interface ContactFaq {
+  id: number;
+  question: string;
+  answer: string;
+  category?: string | null;
+  is_active?: boolean | null;
+  sort_order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-info".
+ */
+export interface ContactInfo {
+  id: number;
+  type: string;
+  label: string;
+  value: string;
+  icon?: string | null;
+  is_active?: boolean | null;
+  sort_order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-page-cms".
+ */
+export interface ContactPageCm {
+  id: number;
+  section_name: string;
+  section_type: string;
+  title?: string | null;
+  subtitle?: string | null;
+  description?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  image_url?: string | null;
+  is_active?: boolean | null;
+  sort_order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-submissions".
+ */
+export interface ContactSubmission {
+  id: number;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  category?: string | null;
+  status?: string | null;
+  priority?: string | null;
+  assigned_to?: (number | null) | User;
+  admin_notes?: string | null;
+  response_sent?: boolean | null;
+  response_message?: string | null;
+  response_sent_at?: string | null;
+  response_sent_by?: (number | null) | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "countries".
+ */
+export interface Country {
+  id: number;
+  name: string;
+  code: string;
+  enabled?: boolean | null;
+  currency?: string | null;
+  timezone_id?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "country-codes".
+ */
+export interface CountryCode {
+  id: number;
+  country_name: string;
+  country_code: string;
+  dialing_code: string;
+  flag_emoji?: string | null;
+  enabled?: boolean | null;
+  sort_order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "currencies".
+ */
+export interface Currency {
+  id: number;
+  code: string;
+  name: string;
+  symbol?: string | null;
+  symbol_position?: string | null;
+  decimal_places?: number | null;
+  enabled?: boolean | null;
+  sort_order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "discounts".
+ */
+export interface Discount {
+  id: number;
+  business: number | Business;
+  name: string;
+  discount_type: string;
+  discount_amount: number;
+  location: number | BusinessLocation;
+  brand?: (number | null) | Brand;
+  category?: (number | null) | Category;
+  selling_price_group?: (number | null) | SellingPriceGroup;
+  priority?: number | null;
+  starts_at?: string | null;
+  ends_at?: string | null;
+  is_active?: boolean | null;
+  apply_in_customer_groups?: boolean | null;
+  created_by?: (number | null) | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "discount-products".
+ */
+export interface DiscountProduct {
+  id: number;
+  discount: number | Discount;
+  product: number | Product;
+  business: number | Business;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "homepage-cms".
+ */
+export interface HomepageCm {
+  id: number;
+  section_name: string;
+  section_type: string;
+  title?: string | null;
+  subtitle?: string | null;
+  description?: string | null;
+  content?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  is_active?: boolean | null;
+  sort_order?: number | null;
+  created_by?: (number | null) | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "label-print-history".
+ */
+export interface LabelPrintHistory {
+  id: number;
+  business: number | Business;
+  template?: (number | null) | BusinessLabelTemplate;
+  printed_by: number | User;
+  products_printed:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  total_labels_printed: number;
+  settings_used:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  status?: string | null;
+  error_message?: string | null;
+  printed_at?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "office-locations".
+ */
+export interface OfficeLocation {
+  id: number;
+  name: string;
+  address: string;
+  city: string;
+  state?: string | null;
+  country: string;
+  postal_code?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  hours?: string | null;
+  is_active?: boolean | null;
+  sort_order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "opening-stock".
+ */
+export interface OpeningStock {
+  id: number;
+  product?: (number | null) | Product;
+  location: string;
+  quantity: number;
+  unit_cost: number;
+  lot_number?: string | null;
+  subtotal: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "package-features".
+ */
+export interface PackageFeature {
+  id: number;
+  package: number | SubscriptionPackage;
+  feature: number | SubscriptionFeature;
+  limit_value?: number | null;
+  is_unlimited?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscription-features".
+ */
+export interface SubscriptionFeature {
+  id: number;
+  feature_name: string;
+  feature_code: string;
+  description?: string | null;
+  category?: string | null;
+  is_active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "permission-requests".
+ */
+export interface PermissionRequest {
+  id: number;
+  user: number | User;
+  permission_code: string;
+  reason?: string | null;
+  status?: string | null;
+  requested_at?: string | null;
+  reviewed_at?: string | null;
+  reviewed_by?: (number | null) | User;
+  reviewer_notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "permissions".
+ */
+export interface Permission {
+  id: number;
+  code: string;
+  display_name: string;
+  description?: string | null;
+  category: string;
+  subcategory?: string | null;
+  is_active?: boolean | null;
+  sort_order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "prefixes".
+ */
+export interface Prefix {
+  id: number;
+  name: string;
+  display_name: string;
+  enabled?: boolean | null;
+  sort_order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "product-imei-serial".
+ */
+export interface ProductImeiSerial {
+  id: number;
+  business?: (number | null) | Business;
+  product: number | Product;
+  product_stock_price?: (number | null) | ProductStockPrice;
+  type?: string | null;
+  imei?: string | null;
+  serial?: string | null;
+  is_sold?: boolean | null;
+  business_location?: (number | null) | BusinessLocation;
+  created_by?: (number | null) | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "product-stock-price".
+ */
+export interface ProductStockPrice {
+  id: number;
+  business?: (number | null) | Business;
+  product: number | Product;
+  supplier?: (number | null) | Contact;
+  unit_price?: number | null;
+  default_selling_price?: number | null;
+  stock?: number | null;
+  sold?: number | null;
+  status?: string | null;
+  note?: string | null;
+  business_location?: (number | null) | BusinessLocation;
+  manufacturing_date?: string | null;
+  expiry_date?: string | null;
+  created_by?: (number | null) | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "product-locations".
+ */
+export interface ProductLocation {
+  id: number;
+  product: number | Product;
+  business_location: number | BusinessLocation;
+  business?: (number | null) | Business;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "purchase-items".
+ */
+export interface PurchaseItem {
+  id: number;
+  purchase: number | Purchase;
+  product: number | Product;
+  business: number | Business;
+  business_location?: (number | null) | BusinessLocation;
+  quantity: number;
+  unit_price: number;
+  default_selling_price?: number | null;
+  tax_rate?: number | null;
+  tax_amount?: number | null;
+  discount_amount?: number | null;
+  discount_type?: string | null;
+  total_amount: number;
+  received_quantity: number;
+  is_received?: boolean | null;
+  status?: string | null;
+  stock_price_entry?: (number | null) | ProductStockPrice;
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "purchase-return-items".
+ */
+export interface PurchaseReturnItem {
+  id: number;
+  return: number | PurchaseReturn;
+  purchase_item: number | PurchaseItem;
+  product: number | Product;
+  product_name: string;
+  quantity: number;
+  unit_price: number;
+  tax_rate: number;
+  tax_amount: number;
+  discount_amount: number;
+  subtotal: number;
+  total: number;
+  reason?: string | null;
+  condition?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "purchase-returns".
+ */
+export interface PurchaseReturn {
+  id: number;
+  business: number | Business;
+  return_number: string;
+  original_purchase: number | Purchase;
+  supplier?: (number | null) | Contact;
+  return_date: string;
+  subtotal: number;
+  discount: number;
+  tax: number;
+  total_amount: number;
+  status: string;
+  reason?: string | null;
+  refund_method?: string | null;
+  notes?: string | null;
+  created_by: number | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "return-items".
+ */
+export interface ReturnItem {
+  id: number;
+  return: number | SalesReturn;
+  sale_item: number | SaleItem;
+  product: number | Product;
+  product_name: string;
+  quantity: number;
+  unit_price: number;
+  tax_rate: number;
+  tax_amount: number;
+  discount_amount: number;
+  subtotal: number;
+  total: number;
+  reason?: string | null;
+  condition?: string | null;
+  imei?: string | null;
+  serial_number?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sales-returns".
+ */
+export interface SalesReturn {
+  id: number;
+  business: number | Business;
+  return_number: string;
+  original_sale: number | Sale;
+  customer?: (number | null) | Contact;
+  return_date: string;
+  subtotal: number;
+  discount: number;
+  tax: number;
+  shipping: number;
+  total_amount: number;
+  status: string;
+  reason?: string | null;
+  refund_method?: string | null;
+  notes?: string | null;
+  created_by: number | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sale-items".
+ */
+export interface SaleItem {
+  id: number;
+  sale: number | Sale;
+  product: number | Product;
+  product_name: string;
+  quantity: number;
+  unit_price: number;
+  tax_rate: number;
+  tax_amount: number;
+  discount_amount: number;
+  subtotal: number;
+  total: number;
+  imei?: string | null;
+  serial_number?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "role-permissions".
+ */
+export interface RolePermission {
+  id: number;
+  role_id: string;
+  permission: number | Permission;
+  settings?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  granted_at?: string | null;
+  granted_by?: (number | null) | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sale-payments".
+ */
+export interface SalePayment {
+  id: number;
+  sale: number | Sale;
+  payment_method_id?: string | null;
+  payment_method_code: string;
+  payment_method_name: string;
+  amount: number;
+  reference_number?: string | null;
+  notes?: string | null;
+  created_by?: (number | null) | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sales-commission-agents".
+ */
+export interface SalesCommissionAgent {
+  id: number;
+  name: string;
+  email: string;
+  contact_number?: string | null;
+  address?: string | null;
+  sales_commission_percentage: number;
+  business: number | Business;
+  is_active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seo-analytics".
+ */
+export interface SeoAnalytic {
+  id: number;
+  date: string;
+  total_clicks?: number | null;
+  total_impressions?: number | null;
+  average_ctr?: number | null;
+  average_position?: number | null;
+  organic_sessions?: number | null;
+  organic_users?: number | null;
+  organic_pageviews?: number | null;
+  organic_bounce_rate?: number | null;
+  top_pages?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  top_keywords?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  lcp_score?: number | null;
+  fid_score?: number | null;
+  cls_score?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seo-issues".
+ */
+export interface SeoIssue {
+  id: number;
+  issue_type: string;
+  issue_severity: string;
+  issue_title: string;
+  issue_description?: string | null;
+  affected_url?: string | null;
+  affected_page_slug?: string | null;
+  error_code?: string | null;
+  error_message?: string | null;
+  technical_details?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  is_resolved?: boolean | null;
+  resolved_at?: string | null;
+  resolution_notes?: string | null;
+  is_active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seo-keywords".
+ */
+export interface SeoKeyword {
+  id: number;
+  keyword: string;
+  target_url?: string | null;
+  target_page_slug?: string | null;
+  search_volume?: number | null;
+  difficulty_score?: number | null;
+  current_ranking?: number | null;
+  target_ranking?: number | null;
+  last_checked?: string | null;
+  ranking_history?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  is_active?: boolean | null;
+  is_primary?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seo-pages".
+ */
+export interface SeoPage {
+  id: number;
+  page_slug: string;
+  page_title: string;
+  page_description?: string | null;
+  page_keywords?: string | null;
+  custom_title?: string | null;
+  custom_description?: string | null;
+  custom_keywords?: string | null;
+  og_title?: string | null;
+  og_description?: string | null;
+  og_image_url?: string | null;
+  og_type?: string | null;
+  twitter_title?: string | null;
+  twitter_description?: string | null;
+  twitter_image_url?: string | null;
+  structured_data?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  canonical_url?: string | null;
+  robots_index?: boolean | null;
+  robots_follow?: boolean | null;
+  robots_noarchive?: boolean | null;
+  robots_nosnippet?: boolean | null;
+  sitemap_include?: boolean | null;
+  sitemap_priority?: number | null;
+  sitemap_changefreq?: string | null;
+  is_active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seo-settings".
+ */
+export interface SeoSetting {
+  id: number;
+  site_title: string;
+  site_description?: string | null;
+  site_keywords?: string | null;
+  site_author?: string | null;
+  site_language?: string | null;
+  default_title?: string | null;
+  default_description?: string | null;
+  default_keywords?: string | null;
+  title_separator?: string | null;
+  title_template?: string | null;
+  og_site_name?: string | null;
+  og_default_image_url?: string | null;
+  og_default_type?: string | null;
+  og_locale?: string | null;
+  twitter_site?: string | null;
+  twitter_creator?: string | null;
+  twitter_card_type?: string | null;
+  organization_schema?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  website_schema?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  breadcrumb_schema?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  canonical_url?: string | null;
+  robots_txt_content?: string | null;
+  sitemap_enabled?: boolean | null;
+  sitemap_priority?: number | null;
+  sitemap_changefreq?: string | null;
+  google_analytics_id?: string | null;
+  google_search_console_verification?: string | null;
+  google_tag_manager_id?: string | null;
+  facebook_pixel_id?: string | null;
+  bing_webmaster_verification?: string | null;
+  enable_gzip?: boolean | null;
+  enable_minification?: boolean | null;
+  enable_caching?: boolean | null;
+  cache_duration?: number | null;
+  facebook_url?: string | null;
+  twitter_url?: string | null;
+  linkedin_url?: string | null;
+  instagram_url?: string | null;
+  youtube_url?: string | null;
+  contact_email?: string | null;
+  contact_phone?: string | null;
+  business_address?: string | null;
+  business_city?: string | null;
+  business_state?: string | null;
+  business_country?: string | null;
+  business_postal_code?: string | null;
+  last_seo_check?: string | null;
+  seo_score?: number | null;
+  seo_issues_list?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  is_active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: number;
+  settings:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "stock-adjustment-history".
+ */
+export interface StockAdjustmentHistory {
+  id: number;
+  adjustment: number | StockAdjustment;
+  action: string;
+  performed_by: number | User;
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "stock-adjustments".
+ */
+export interface StockAdjustment {
+  id: number;
+  adjustment_number?: string | null;
+  location: number | BusinessLocation;
+  adjustment_date?: string | null;
+  adjustment_type: string;
+  reason?: string | null;
+  notes?: string | null;
+  total_items?: number | null;
+  adjusted_by: number | User;
+  status?: string | null;
+  approved_by?: (number | null) | User;
+  approved_at?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "stock-adjustment-items".
+ */
+export interface StockAdjustmentItem {
+  id: number;
+  adjustment: number | StockAdjustment;
+  product: number | Product;
+  current_quantity?: number | null;
+  adjusted_quantity: number;
+  new_quantity: number;
+  unit_cost?: number | null;
+  total_cost?: number | null;
+  reason?: string | null;
+  imei_number?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "stock-transfer-item-imeis".
+ */
+export interface StockTransferItemImei {
+  id: number;
+  stock_transfer_item?: (number | null) | StockTransferItem;
+  imei_number?: string | null;
+  type?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "stock-transfer-items".
+ */
+export interface StockTransferItem {
+  id: number;
+  transfer: number | StockTransfer;
+  product: number | Product;
+  quantity: number;
+  received_quantity?: number | null;
+  imei?: string | null;
+  serial_number?: string | null;
+  quantity_received?: number | null;
+  unit_price?: number | null;
+  subtotal?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "stock-transfers".
+ */
+export interface StockTransfer {
+  id: number;
+  reference_no: string;
+  source_location?: (number | null) | BusinessLocation;
+  destination_location?: (number | null) | BusinessLocation;
+  status: string;
+  transfer_date: string;
+  notes?: string | null;
+  created_by?: (number | null) | User;
+  shipping_charges?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscription-history".
+ */
+export interface SubscriptionHistory {
+  id: number;
+  business: number | Business;
+  subscription?: (number | null) | BusinessSubscription;
+  action: string;
+  old_package?: (number | null) | SubscriptionPackage;
+  new_package?: (number | null) | SubscriptionPackage;
+  old_price?: number | null;
+  new_price?: number | null;
+  changed_by?: (number | null) | User;
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscription-plans".
+ */
+export interface SubscriptionPlan {
+  id: number;
+  name: string;
+  description?: string | null;
+  price: number;
+  billing_period: string;
+  features?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  max_users?: number | null;
+  max_businesses?: number | null;
+  storage_limit_gb?: number | null;
+  is_active?: boolean | null;
+  is_popular?: boolean | null;
+  sort_order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
-  id: string;
+  id: number;
   key: string;
   data:
     | {
@@ -181,20 +1919,312 @@ export interface PayloadKv {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string;
+  id: number;
   document?:
     | ({
         relationTo: 'users';
-        value: string | User;
+        value: number | User;
       } | null)
     | ({
         relationTo: 'media';
-        value: string | Media;
+        value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'businesses';
+        value: number | Business;
+      } | null)
+    | ({
+        relationTo: 'business-locations';
+        value: number | BusinessLocation;
+      } | null)
+    | ({
+        relationTo: 'categories';
+        value: number | Category;
+      } | null)
+    | ({
+        relationTo: 'brands';
+        value: number | Brand;
+      } | null)
+    | ({
+        relationTo: 'products';
+        value: number | Product;
+      } | null)
+    | ({
+        relationTo: 'contacts';
+        value: number | Contact;
+      } | null)
+    | ({
+        relationTo: 'sales';
+        value: number | Sale;
+      } | null)
+    | ({
+        relationTo: 'purchases';
+        value: number | Purchase;
+      } | null)
+    | ({
+        relationTo: 'expenses';
+        value: number | Expense;
+      } | null)
+    | ({
+        relationTo: 'expense-categories';
+        value: number | ExpenseCategory;
+      } | null)
+    | ({
+        relationTo: 'customer-groups';
+        value: number | CustomerGroup;
+      } | null)
+    | ({
+        relationTo: 'about-page-cms';
+        value: number | AboutPageCm;
+      } | null)
+    | ({
+        relationTo: 'achievements';
+        value: number | Achievement;
+      } | null)
+    | ({
+        relationTo: 'bank-accounts';
+        value: number | BankAccount;
+      } | null)
+    | ({
+        relationTo: 'bank-transfer-orders';
+        value: number | BankTransferOrder;
+      } | null)
+    | ({
+        relationTo: 'business-domains';
+        value: number | BusinessDomain;
+      } | null)
+    | ({
+        relationTo: 'business-label-settings';
+        value: number | BusinessLabelSetting;
+      } | null)
+    | ({
+        relationTo: 'business-label-templates';
+        value: number | BusinessLabelTemplate;
+      } | null)
+    | ({
+        relationTo: 'business-payment-methods';
+        value: number | BusinessPaymentMethod;
+      } | null)
+    | ({
+        relationTo: 'business-settings';
+        value: number | BusinessSetting;
+      } | null)
+    | ({
+        relationTo: 'business-subscriptions';
+        value: number | BusinessSubscription;
+      } | null)
+    | ({
+        relationTo: 'business-trial-usage';
+        value: number | BusinessTrialUsage;
+      } | null)
+    | ({
+        relationTo: 'contact-faqs';
+        value: number | ContactFaq;
+      } | null)
+    | ({
+        relationTo: 'contact-info';
+        value: number | ContactInfo;
+      } | null)
+    | ({
+        relationTo: 'contact-page-cms';
+        value: number | ContactPageCm;
+      } | null)
+    | ({
+        relationTo: 'contact-submissions';
+        value: number | ContactSubmission;
+      } | null)
+    | ({
+        relationTo: 'selling-price-groups';
+        value: number | SellingPriceGroup;
+      } | null)
+    | ({
+        relationTo: 'units';
+        value: number | Unit;
+      } | null)
+    | ({
+        relationTo: 'warranties';
+        value: number | Warranty;
+      } | null)
+    | ({
+        relationTo: 'subscription-packages';
+        value: number | SubscriptionPackage;
+      } | null)
+    | ({
+        relationTo: 'global-payment-methods';
+        value: number | GlobalPaymentMethod;
+      } | null)
+    | ({
+        relationTo: 'coupons';
+        value: number | Coupon;
+      } | null)
+    | ({
+        relationTo: 'countries';
+        value: number | Country;
+      } | null)
+    | ({
+        relationTo: 'country-codes';
+        value: number | CountryCode;
+      } | null)
+    | ({
+        relationTo: 'currencies';
+        value: number | Currency;
+      } | null)
+    | ({
+        relationTo: 'discounts';
+        value: number | Discount;
+      } | null)
+    | ({
+        relationTo: 'discount-products';
+        value: number | DiscountProduct;
+      } | null)
+    | ({
+        relationTo: 'homepage-cms';
+        value: number | HomepageCm;
+      } | null)
+    | ({
+        relationTo: 'label-print-history';
+        value: number | LabelPrintHistory;
+      } | null)
+    | ({
+        relationTo: 'office-locations';
+        value: number | OfficeLocation;
+      } | null)
+    | ({
+        relationTo: 'opening-stock';
+        value: number | OpeningStock;
+      } | null)
+    | ({
+        relationTo: 'package-features';
+        value: number | PackageFeature;
+      } | null)
+    | ({
+        relationTo: 'permission-requests';
+        value: number | PermissionRequest;
+      } | null)
+    | ({
+        relationTo: 'permissions';
+        value: number | Permission;
+      } | null)
+    | ({
+        relationTo: 'prefixes';
+        value: number | Prefix;
+      } | null)
+    | ({
+        relationTo: 'product-imei-serial';
+        value: number | ProductImeiSerial;
+      } | null)
+    | ({
+        relationTo: 'product-locations';
+        value: number | ProductLocation;
+      } | null)
+    | ({
+        relationTo: 'product-stock-price';
+        value: number | ProductStockPrice;
+      } | null)
+    | ({
+        relationTo: 'purchase-items';
+        value: number | PurchaseItem;
+      } | null)
+    | ({
+        relationTo: 'purchase-return-items';
+        value: number | PurchaseReturnItem;
+      } | null)
+    | ({
+        relationTo: 'purchase-returns';
+        value: number | PurchaseReturn;
+      } | null)
+    | ({
+        relationTo: 'return-items';
+        value: number | ReturnItem;
+      } | null)
+    | ({
+        relationTo: 'role-permissions';
+        value: number | RolePermission;
+      } | null)
+    | ({
+        relationTo: 'sale-items';
+        value: number | SaleItem;
+      } | null)
+    | ({
+        relationTo: 'sale-payments';
+        value: number | SalePayment;
+      } | null)
+    | ({
+        relationTo: 'sales-commission-agents';
+        value: number | SalesCommissionAgent;
+      } | null)
+    | ({
+        relationTo: 'sales-returns';
+        value: number | SalesReturn;
+      } | null)
+    | ({
+        relationTo: 'seo-analytics';
+        value: number | SeoAnalytic;
+      } | null)
+    | ({
+        relationTo: 'seo-issues';
+        value: number | SeoIssue;
+      } | null)
+    | ({
+        relationTo: 'seo-keywords';
+        value: number | SeoKeyword;
+      } | null)
+    | ({
+        relationTo: 'seo-pages';
+        value: number | SeoPage;
+      } | null)
+    | ({
+        relationTo: 'seo-settings';
+        value: number | SeoSetting;
+      } | null)
+    | ({
+        relationTo: 'site-settings';
+        value: number | SiteSetting;
+      } | null)
+    | ({
+        relationTo: 'stock-adjustment-history';
+        value: number | StockAdjustmentHistory;
+      } | null)
+    | ({
+        relationTo: 'stock-adjustment-items';
+        value: number | StockAdjustmentItem;
+      } | null)
+    | ({
+        relationTo: 'stock-adjustments';
+        value: number | StockAdjustment;
+      } | null)
+    | ({
+        relationTo: 'stock-transfer-item-imeis';
+        value: number | StockTransferItemImei;
+      } | null)
+    | ({
+        relationTo: 'stock-transfer-items';
+        value: number | StockTransferItem;
+      } | null)
+    | ({
+        relationTo: 'stock-transfers';
+        value: number | StockTransfer;
+      } | null)
+    | ({
+        relationTo: 'subscription-features';
+        value: number | SubscriptionFeature;
+      } | null)
+    | ({
+        relationTo: 'subscription-history';
+        value: number | SubscriptionHistory;
+      } | null)
+    | ({
+        relationTo: 'subscription-payments';
+        value: number | SubscriptionPayment;
+      } | null)
+    | ({
+        relationTo: 'subscription-plans';
+        value: number | SubscriptionPlan;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -204,10 +2234,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
+  id: number;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   key?: string | null;
   value?:
@@ -227,7 +2257,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
+  id: number;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -238,6 +2268,8 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  business?: T;
+  roles?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -272,6 +2304,1343 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "businesses_select".
+ */
+export interface BusinessesSelect<T extends boolean = true> {
+  business_name?: T;
+  start_date?: T;
+  logo_url?: T;
+  business_contact?: T;
+  country?: T;
+  city?: T;
+  landmark?: T;
+  state?: T;
+  zip_code?: T;
+  currency?: T;
+  website?: T;
+  alternate_contact?: T;
+  timezone?: T;
+  tax1_name?: T;
+  tax1_number?: T;
+  tax2_name?: T;
+  tax2_number?: T;
+  financial_year_start?: T;
+  stock_accounting_method?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "business-locations_select".
+ */
+export interface BusinessLocationsSelect<T extends boolean = true> {
+  name?: T;
+  location_id?: T;
+  landmark?: T;
+  city?: T;
+  state?: T;
+  zip_code?: T;
+  country?: T;
+  mobile?: T;
+  email?: T;
+  alternate_contact_number?: T;
+  website?: T;
+  invoice_scheme_pos?: T;
+  invoice_layout_pos?: T;
+  invoice_scheme_sale?: T;
+  invoice_layout_sale?: T;
+  default_selling_price_group?: T;
+  business?: T;
+  is_active?: T;
+  is_default?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories_select".
+ */
+export interface CategoriesSelect<T extends boolean = true> {
+  category_name?: T;
+  category_code?: T;
+  description?: T;
+  business?: T;
+  parent_category?: T;
+  hsn_code?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "brands_select".
+ */
+export interface BrandsSelect<T extends boolean = true> {
+  brand_name?: T;
+  description?: T;
+  business?: T;
+  logo_url?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products_select".
+ */
+export interface ProductsSelect<T extends boolean = true> {
+  name?: T;
+  business?: T;
+  image_url?: T;
+  sku?: T;
+  barcode_type?: T;
+  status?: T;
+  description?: T;
+  is_serial_imei?: T;
+  units?: T;
+  warranties?: T;
+  brand?: T;
+  category?: T;
+  manage_stock?: T;
+  alert_quantity?: T;
+  expiry_date?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contacts_select".
+ */
+export interface ContactsSelect<T extends boolean = true> {
+  contact_id?: T;
+  contact_type?: T;
+  customer_type?: T;
+  prefix?: T;
+  first_name?: T;
+  last_name?: T;
+  business_name?: T;
+  email?: T;
+  mobile?: T;
+  alternate_contact_number?: T;
+  landline?: T;
+  customer_group?: T;
+  assigned_to?: T;
+  tax_number?: T;
+  credit_limit?: T;
+  pay_term?: T;
+  opening_balance?: T;
+  advance_balance?: T;
+  address_line_1?: T;
+  address_line_2?: T;
+  city?: T;
+  state?: T;
+  country?: T;
+  zip_code?: T;
+  landmark?: T;
+  business?: T;
+  is_active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sales_select".
+ */
+export interface SalesSelect<T extends boolean = true> {
+  sale_number?: T;
+  business?: T;
+  customer?: T;
+  location?: T;
+  business_location?: T;
+  transaction_date?: T;
+  subtotal?: T;
+  discount?: T;
+  tax?: T;
+  shipping?: T;
+  total?: T;
+  payment_method?: T;
+  status?: T;
+  created_by_user?: T;
+  due_amount?: T;
+  is_credit_sale?: T;
+  total_paid?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "purchases_select".
+ */
+export interface PurchasesSelect<T extends boolean = true> {
+  purchase_number?: T;
+  business?: T;
+  supplier?: T;
+  purchase_date?: T;
+  due_date?: T;
+  status?: T;
+  subtotal?: T;
+  tax_amount?: T;
+  discount_amount?: T;
+  discount_type?: T;
+  total_amount?: T;
+  paid_amount?: T;
+  payment_status?: T;
+  payment_method?: T;
+  reference_number?: T;
+  notes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "expenses_select".
+ */
+export interface ExpensesSelect<T extends boolean = true> {
+  expense_number?: T;
+  business?: T;
+  expense_date?: T;
+  category?: T;
+  amount?: T;
+  payment_method?: T;
+  description?: T;
+  location?: T;
+  supplier?: T;
+  user?: T;
+  receipt_url?: T;
+  status?: T;
+  notes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "expense-categories_select".
+ */
+export interface ExpenseCategoriesSelect<T extends boolean = true> {
+  name?: T;
+  business?: T;
+  description?: T;
+  color?: T;
+  is_active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "customer-groups_select".
+ */
+export interface CustomerGroupsSelect<T extends boolean = true> {
+  name?: T;
+  calculation_percentage?: T;
+  price_calculation_type?: T;
+  business?: T;
+  is_active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-page-cms_select".
+ */
+export interface AboutPageCmsSelect<T extends boolean = true> {
+  section_name?: T;
+  section_type?: T;
+  title?: T;
+  subtitle?: T;
+  description?: T;
+  content?: T;
+  image_url?: T;
+  is_active?: T;
+  sort_order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "achievements_select".
+ */
+export interface AchievementsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  year?: T;
+  icon?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "bank-accounts_select".
+ */
+export interface BankAccountsSelect<T extends boolean = true> {
+  account_name?: T;
+  account_number?: T;
+  bank_name?: T;
+  ifsc_code?: T;
+  branch_name?: T;
+  upi_id?: T;
+  qr_code_url?: T;
+  is_primary?: T;
+  is_active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "bank-transfer-orders_select".
+ */
+export interface BankTransferOrdersSelect<T extends boolean = true> {
+  order_number?: T;
+  business?: T;
+  package?: T;
+  bank_account?: T;
+  original_amount?: T;
+  discount_amount?: T;
+  final_amount?: T;
+  currency?: T;
+  status?: T;
+  proof_url?: T;
+  proof_uploaded_at?: T;
+  transaction_reference?: T;
+  user_notes?: T;
+  admin_notes?: T;
+  verified_by?: T;
+  verified_at?: T;
+  rejected_reason?: T;
+  subscription_id?: T;
+  expires_at?: T;
+  coupon?: T;
+  coupon_code?: T;
+  subtotal_amount?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "business-domains_select".
+ */
+export interface BusinessDomainsSelect<T extends boolean = true> {
+  business?: T;
+  domain?: T;
+  type?: T;
+  is_verified?: T;
+  has_ssl?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "business-label-settings_select".
+ */
+export interface BusinessLabelSettingsSelect<T extends boolean = true> {
+  business?: T;
+  default_label_format?: T;
+  default_labels_per_row?: T;
+  default_barcode_type?: T;
+  default_barcode_size?: T;
+  show_product_name?: T;
+  show_sku?: T;
+  show_price?: T;
+  show_barcode?: T;
+  show_business_name?: T;
+  show_business_logo?: T;
+  custom_label_width?: T;
+  custom_label_height?: T;
+  currency_symbol?: T;
+  currency_position?: T;
+  price_decimal_places?: T;
+  default_printer_type?: T;
+  default_printer_name?: T;
+  default_printer_port?: T;
+  print_speed?: T;
+  print_density?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "business-label-templates_select".
+ */
+export interface BusinessLabelTemplatesSelect<T extends boolean = true> {
+  business?: T;
+  template_name?: T;
+  template_description?: T;
+  is_default?: T;
+  is_active?: T;
+  label_width?: T;
+  label_height?: T;
+  gap_height?: T;
+  layout_config?: T;
+  preview_image_url?: T;
+  created_by?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "business-payment-methods_select".
+ */
+export interface BusinessPaymentMethodsSelect<T extends boolean = true> {
+  business?: T;
+  global_payment_method?: T;
+  is_active?: T;
+  is_default?: T;
+  name?: T;
+  code?: T;
+  icon?: T;
+  sort_order?: T;
+  created_by?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "business-settings_select".
+ */
+export interface BusinessSettingsSelect<T extends boolean = true> {
+  business?: T;
+  setting_type?: T;
+  settings?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "business-subscriptions_select".
+ */
+export interface BusinessSubscriptionsSelect<T extends boolean = true> {
+  business?: T;
+  package?: T;
+  status?: T;
+  start_date?: T;
+  end_date?: T;
+  trial_end_date?: T;
+  auto_renew?: T;
+  current_price?: T;
+  billing_cycle?: T;
+  next_billing_date?: T;
+  payment_method?: T;
+  notes?: T;
+  cancelled_at?: T;
+  cancelled_by?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "business-trial-usage_select".
+ */
+export interface BusinessTrialUsageSelect<T extends boolean = true> {
+  business?: T;
+  trial_used_at?: T;
+  is_manual_override?: T;
+  overridden_by?: T;
+  subscription?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-faqs_select".
+ */
+export interface ContactFaqsSelect<T extends boolean = true> {
+  question?: T;
+  answer?: T;
+  category?: T;
+  is_active?: T;
+  sort_order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-info_select".
+ */
+export interface ContactInfoSelect<T extends boolean = true> {
+  type?: T;
+  label?: T;
+  value?: T;
+  icon?: T;
+  is_active?: T;
+  sort_order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-page-cms_select".
+ */
+export interface ContactPageCmsSelect<T extends boolean = true> {
+  section_name?: T;
+  section_type?: T;
+  title?: T;
+  subtitle?: T;
+  description?: T;
+  content?: T;
+  image_url?: T;
+  is_active?: T;
+  sort_order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-submissions_select".
+ */
+export interface ContactSubmissionsSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  subject?: T;
+  message?: T;
+  category?: T;
+  status?: T;
+  priority?: T;
+  assigned_to?: T;
+  admin_notes?: T;
+  response_sent?: T;
+  response_message?: T;
+  response_sent_at?: T;
+  response_sent_by?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "selling-price-groups_select".
+ */
+export interface SellingPriceGroupsSelect<T extends boolean = true> {
+  group_name?: T;
+  description?: T;
+  color?: T;
+  business?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "units_select".
+ */
+export interface UnitsSelect<T extends boolean = true> {
+  name?: T;
+  short_name?: T;
+  allow_decimal?: T;
+  business?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "warranties_select".
+ */
+export interface WarrantiesSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  duration?: T;
+  duration_type?: T;
+  business?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscription-packages_select".
+ */
+export interface SubscriptionPackagesSelect<T extends boolean = true> {
+  package_name?: T;
+  package_code?: T;
+  description?: T;
+  price?: T;
+  currency?: T;
+  billing_cycle?: T;
+  features?: T;
+  max_users?: T;
+  max_locations?: T;
+  max_products?: T;
+  max_storage_gb?: T;
+  is_active?: T;
+  is_popular?: T;
+  sort_order?: T;
+  created_by?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "global-payment-methods_select".
+ */
+export interface GlobalPaymentMethodsSelect<T extends boolean = true> {
+  name?: T;
+  code?: T;
+  icon?: T;
+  is_active?: T;
+  is_available_for_business?: T;
+  sort_order?: T;
+  created_by?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "coupons_select".
+ */
+export interface CouponsSelect<T extends boolean = true> {
+  code?: T;
+  discount_type?: T;
+  discount_value?: T;
+  min_purchase_amount?: T;
+  valid_from?: T;
+  valid_until?: T;
+  usage_limit?: T;
+  usage_count?: T;
+  is_active?: T;
+  applicable_plans?: T;
+  created_by?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "countries_select".
+ */
+export interface CountriesSelect<T extends boolean = true> {
+  name?: T;
+  code?: T;
+  enabled?: T;
+  currency?: T;
+  timezone_id?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "country-codes_select".
+ */
+export interface CountryCodesSelect<T extends boolean = true> {
+  country_name?: T;
+  country_code?: T;
+  dialing_code?: T;
+  flag_emoji?: T;
+  enabled?: T;
+  sort_order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "currencies_select".
+ */
+export interface CurrenciesSelect<T extends boolean = true> {
+  code?: T;
+  name?: T;
+  symbol?: T;
+  symbol_position?: T;
+  decimal_places?: T;
+  enabled?: T;
+  sort_order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "discounts_select".
+ */
+export interface DiscountsSelect<T extends boolean = true> {
+  business?: T;
+  name?: T;
+  discount_type?: T;
+  discount_amount?: T;
+  location?: T;
+  brand?: T;
+  category?: T;
+  selling_price_group?: T;
+  priority?: T;
+  starts_at?: T;
+  ends_at?: T;
+  is_active?: T;
+  apply_in_customer_groups?: T;
+  created_by?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "discount-products_select".
+ */
+export interface DiscountProductsSelect<T extends boolean = true> {
+  discount?: T;
+  product?: T;
+  business?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "homepage-cms_select".
+ */
+export interface HomepageCmsSelect<T extends boolean = true> {
+  section_name?: T;
+  section_type?: T;
+  title?: T;
+  subtitle?: T;
+  description?: T;
+  content?: T;
+  is_active?: T;
+  sort_order?: T;
+  created_by?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "label-print-history_select".
+ */
+export interface LabelPrintHistorySelect<T extends boolean = true> {
+  business?: T;
+  template?: T;
+  printed_by?: T;
+  products_printed?: T;
+  total_labels_printed?: T;
+  settings_used?: T;
+  status?: T;
+  error_message?: T;
+  printed_at?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "office-locations_select".
+ */
+export interface OfficeLocationsSelect<T extends boolean = true> {
+  name?: T;
+  address?: T;
+  city?: T;
+  state?: T;
+  country?: T;
+  postal_code?: T;
+  phone?: T;
+  email?: T;
+  hours?: T;
+  is_active?: T;
+  sort_order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "opening-stock_select".
+ */
+export interface OpeningStockSelect<T extends boolean = true> {
+  product?: T;
+  location?: T;
+  quantity?: T;
+  unit_cost?: T;
+  lot_number?: T;
+  subtotal?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "package-features_select".
+ */
+export interface PackageFeaturesSelect<T extends boolean = true> {
+  package?: T;
+  feature?: T;
+  limit_value?: T;
+  is_unlimited?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "permission-requests_select".
+ */
+export interface PermissionRequestsSelect<T extends boolean = true> {
+  user?: T;
+  permission_code?: T;
+  reason?: T;
+  status?: T;
+  requested_at?: T;
+  reviewed_at?: T;
+  reviewed_by?: T;
+  reviewer_notes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "permissions_select".
+ */
+export interface PermissionsSelect<T extends boolean = true> {
+  code?: T;
+  display_name?: T;
+  description?: T;
+  category?: T;
+  subcategory?: T;
+  is_active?: T;
+  sort_order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "prefixes_select".
+ */
+export interface PrefixesSelect<T extends boolean = true> {
+  name?: T;
+  display_name?: T;
+  enabled?: T;
+  sort_order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "product-imei-serial_select".
+ */
+export interface ProductImeiSerialSelect<T extends boolean = true> {
+  business?: T;
+  product?: T;
+  product_stock_price?: T;
+  type?: T;
+  imei?: T;
+  serial?: T;
+  is_sold?: T;
+  business_location?: T;
+  created_by?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "product-locations_select".
+ */
+export interface ProductLocationsSelect<T extends boolean = true> {
+  product?: T;
+  business_location?: T;
+  business?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "product-stock-price_select".
+ */
+export interface ProductStockPriceSelect<T extends boolean = true> {
+  business?: T;
+  product?: T;
+  supplier?: T;
+  unit_price?: T;
+  default_selling_price?: T;
+  stock?: T;
+  sold?: T;
+  status?: T;
+  note?: T;
+  business_location?: T;
+  manufacturing_date?: T;
+  expiry_date?: T;
+  created_by?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "purchase-items_select".
+ */
+export interface PurchaseItemsSelect<T extends boolean = true> {
+  purchase?: T;
+  product?: T;
+  business?: T;
+  business_location?: T;
+  quantity?: T;
+  unit_price?: T;
+  default_selling_price?: T;
+  tax_rate?: T;
+  tax_amount?: T;
+  discount_amount?: T;
+  discount_type?: T;
+  total_amount?: T;
+  received_quantity?: T;
+  is_received?: T;
+  status?: T;
+  stock_price_entry?: T;
+  notes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "purchase-return-items_select".
+ */
+export interface PurchaseReturnItemsSelect<T extends boolean = true> {
+  return?: T;
+  purchase_item?: T;
+  product?: T;
+  product_name?: T;
+  quantity?: T;
+  unit_price?: T;
+  tax_rate?: T;
+  tax_amount?: T;
+  discount_amount?: T;
+  subtotal?: T;
+  total?: T;
+  reason?: T;
+  condition?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "purchase-returns_select".
+ */
+export interface PurchaseReturnsSelect<T extends boolean = true> {
+  business?: T;
+  return_number?: T;
+  original_purchase?: T;
+  supplier?: T;
+  return_date?: T;
+  subtotal?: T;
+  discount?: T;
+  tax?: T;
+  total_amount?: T;
+  status?: T;
+  reason?: T;
+  refund_method?: T;
+  notes?: T;
+  created_by?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "return-items_select".
+ */
+export interface ReturnItemsSelect<T extends boolean = true> {
+  return?: T;
+  sale_item?: T;
+  product?: T;
+  product_name?: T;
+  quantity?: T;
+  unit_price?: T;
+  tax_rate?: T;
+  tax_amount?: T;
+  discount_amount?: T;
+  subtotal?: T;
+  total?: T;
+  reason?: T;
+  condition?: T;
+  imei?: T;
+  serial_number?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "role-permissions_select".
+ */
+export interface RolePermissionsSelect<T extends boolean = true> {
+  role_id?: T;
+  permission?: T;
+  settings?: T;
+  granted_at?: T;
+  granted_by?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sale-items_select".
+ */
+export interface SaleItemsSelect<T extends boolean = true> {
+  sale?: T;
+  product?: T;
+  product_name?: T;
+  quantity?: T;
+  unit_price?: T;
+  tax_rate?: T;
+  tax_amount?: T;
+  discount_amount?: T;
+  subtotal?: T;
+  total?: T;
+  imei?: T;
+  serial_number?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sale-payments_select".
+ */
+export interface SalePaymentsSelect<T extends boolean = true> {
+  sale?: T;
+  payment_method_id?: T;
+  payment_method_code?: T;
+  payment_method_name?: T;
+  amount?: T;
+  reference_number?: T;
+  notes?: T;
+  created_by?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sales-commission-agents_select".
+ */
+export interface SalesCommissionAgentsSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  contact_number?: T;
+  address?: T;
+  sales_commission_percentage?: T;
+  business?: T;
+  is_active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sales-returns_select".
+ */
+export interface SalesReturnsSelect<T extends boolean = true> {
+  business?: T;
+  return_number?: T;
+  original_sale?: T;
+  customer?: T;
+  return_date?: T;
+  subtotal?: T;
+  discount?: T;
+  tax?: T;
+  shipping?: T;
+  total_amount?: T;
+  status?: T;
+  reason?: T;
+  refund_method?: T;
+  notes?: T;
+  created_by?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seo-analytics_select".
+ */
+export interface SeoAnalyticsSelect<T extends boolean = true> {
+  date?: T;
+  total_clicks?: T;
+  total_impressions?: T;
+  average_ctr?: T;
+  average_position?: T;
+  organic_sessions?: T;
+  organic_users?: T;
+  organic_pageviews?: T;
+  organic_bounce_rate?: T;
+  top_pages?: T;
+  top_keywords?: T;
+  lcp_score?: T;
+  fid_score?: T;
+  cls_score?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seo-issues_select".
+ */
+export interface SeoIssuesSelect<T extends boolean = true> {
+  issue_type?: T;
+  issue_severity?: T;
+  issue_title?: T;
+  issue_description?: T;
+  affected_url?: T;
+  affected_page_slug?: T;
+  error_code?: T;
+  error_message?: T;
+  technical_details?: T;
+  is_resolved?: T;
+  resolved_at?: T;
+  resolution_notes?: T;
+  is_active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seo-keywords_select".
+ */
+export interface SeoKeywordsSelect<T extends boolean = true> {
+  keyword?: T;
+  target_url?: T;
+  target_page_slug?: T;
+  search_volume?: T;
+  difficulty_score?: T;
+  current_ranking?: T;
+  target_ranking?: T;
+  last_checked?: T;
+  ranking_history?: T;
+  is_active?: T;
+  is_primary?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seo-pages_select".
+ */
+export interface SeoPagesSelect<T extends boolean = true> {
+  page_slug?: T;
+  page_title?: T;
+  page_description?: T;
+  page_keywords?: T;
+  custom_title?: T;
+  custom_description?: T;
+  custom_keywords?: T;
+  og_title?: T;
+  og_description?: T;
+  og_image_url?: T;
+  og_type?: T;
+  twitter_title?: T;
+  twitter_description?: T;
+  twitter_image_url?: T;
+  structured_data?: T;
+  canonical_url?: T;
+  robots_index?: T;
+  robots_follow?: T;
+  robots_noarchive?: T;
+  robots_nosnippet?: T;
+  sitemap_include?: T;
+  sitemap_priority?: T;
+  sitemap_changefreq?: T;
+  is_active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seo-settings_select".
+ */
+export interface SeoSettingsSelect<T extends boolean = true> {
+  site_title?: T;
+  site_description?: T;
+  site_keywords?: T;
+  site_author?: T;
+  site_language?: T;
+  default_title?: T;
+  default_description?: T;
+  default_keywords?: T;
+  title_separator?: T;
+  title_template?: T;
+  og_site_name?: T;
+  og_default_image_url?: T;
+  og_default_type?: T;
+  og_locale?: T;
+  twitter_site?: T;
+  twitter_creator?: T;
+  twitter_card_type?: T;
+  organization_schema?: T;
+  website_schema?: T;
+  breadcrumb_schema?: T;
+  canonical_url?: T;
+  robots_txt_content?: T;
+  sitemap_enabled?: T;
+  sitemap_priority?: T;
+  sitemap_changefreq?: T;
+  google_analytics_id?: T;
+  google_search_console_verification?: T;
+  google_tag_manager_id?: T;
+  facebook_pixel_id?: T;
+  bing_webmaster_verification?: T;
+  enable_gzip?: T;
+  enable_minification?: T;
+  enable_caching?: T;
+  cache_duration?: T;
+  facebook_url?: T;
+  twitter_url?: T;
+  linkedin_url?: T;
+  instagram_url?: T;
+  youtube_url?: T;
+  contact_email?: T;
+  contact_phone?: T;
+  business_address?: T;
+  business_city?: T;
+  business_state?: T;
+  business_country?: T;
+  business_postal_code?: T;
+  last_seo_check?: T;
+  seo_score?: T;
+  seo_issues_list?: T;
+  is_active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  settings?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "stock-adjustment-history_select".
+ */
+export interface StockAdjustmentHistorySelect<T extends boolean = true> {
+  adjustment?: T;
+  action?: T;
+  performed_by?: T;
+  notes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "stock-adjustment-items_select".
+ */
+export interface StockAdjustmentItemsSelect<T extends boolean = true> {
+  adjustment?: T;
+  product?: T;
+  current_quantity?: T;
+  adjusted_quantity?: T;
+  new_quantity?: T;
+  unit_cost?: T;
+  total_cost?: T;
+  reason?: T;
+  imei_number?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "stock-adjustments_select".
+ */
+export interface StockAdjustmentsSelect<T extends boolean = true> {
+  adjustment_number?: T;
+  location?: T;
+  adjustment_date?: T;
+  adjustment_type?: T;
+  reason?: T;
+  notes?: T;
+  total_items?: T;
+  adjusted_by?: T;
+  status?: T;
+  approved_by?: T;
+  approved_at?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "stock-transfer-item-imeis_select".
+ */
+export interface StockTransferItemImeisSelect<T extends boolean = true> {
+  stock_transfer_item?: T;
+  imei_number?: T;
+  type?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "stock-transfer-items_select".
+ */
+export interface StockTransferItemsSelect<T extends boolean = true> {
+  transfer?: T;
+  product?: T;
+  quantity?: T;
+  received_quantity?: T;
+  imei?: T;
+  serial_number?: T;
+  quantity_received?: T;
+  unit_price?: T;
+  subtotal?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "stock-transfers_select".
+ */
+export interface StockTransfersSelect<T extends boolean = true> {
+  reference_no?: T;
+  source_location?: T;
+  destination_location?: T;
+  status?: T;
+  transfer_date?: T;
+  notes?: T;
+  created_by?: T;
+  shipping_charges?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscription-features_select".
+ */
+export interface SubscriptionFeaturesSelect<T extends boolean = true> {
+  feature_name?: T;
+  feature_code?: T;
+  description?: T;
+  category?: T;
+  is_active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscription-history_select".
+ */
+export interface SubscriptionHistorySelect<T extends boolean = true> {
+  business?: T;
+  subscription?: T;
+  action?: T;
+  old_package?: T;
+  new_package?: T;
+  old_price?: T;
+  new_price?: T;
+  changed_by?: T;
+  notes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscription-payments_select".
+ */
+export interface SubscriptionPaymentsSelect<T extends boolean = true> {
+  subscription?: T;
+  amount?: T;
+  currency?: T;
+  payment_method?: T;
+  payment_status?: T;
+  transaction_id?: T;
+  payment_date?: T;
+  due_date?: T;
+  notes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscription-plans_select".
+ */
+export interface SubscriptionPlansSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  price?: T;
+  billing_period?: T;
+  features?: T;
+  max_users?: T;
+  max_businesses?: T;
+  storage_limit_gb?: T;
+  is_active?: T;
+  is_popular?: T;
+  sort_order?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
