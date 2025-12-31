@@ -55,6 +55,8 @@ This API uses custom endpoints. Default Payload CMS endpoints are disabled.
     { name: 'Price Groups', description: 'Selling price group management' },
     { name: 'Products', description: 'Product inventory management' },
     { name: 'Locations', description: 'Business location management' },
+    { name: 'Stock', description: 'Stock & Price management' },
+    { name: 'Contacts', description: 'Customer & Supplier management' },
   ],
   components: {
     securitySchemes: {
@@ -1539,6 +1541,232 @@ This API uses custom endpoints. Default Payload CMS endpoints are disabled.
           '200': { description: 'Default location updated' },
           '401': { $ref: '#/components/responses/UnauthorizedError' },
           '404': { description: 'Location not found' },
+        },
+      },
+    },
+
+    // ==================== STOCK & PRICE MANAGEMENT ====================
+    '/api/product-stock-price/list': {
+      get: {
+        tags: ['Stock'],
+        summary: 'List stock entries',
+        description: 'Get stock entries with filters',
+        parameters: [
+          { name: 'page', in: 'query', schema: { type: 'integer', default: 1 } },
+          { name: 'limit', in: 'query', schema: { type: 'integer', default: 10, maximum: 100 } },
+          { name: 'location_id', in: 'query', schema: { type: 'string' } },
+          { name: 'product_id', in: 'query', schema: { type: 'string' } },
+          {
+            name: 'low_stock',
+            in: 'query',
+            schema: { type: 'boolean' },
+            description: 'Filter for low stock (<= 5)',
+          },
+        ],
+        responses: {
+          '200': { description: 'List of stock entries' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+        },
+      },
+    },
+    '/api/product-stock-price/opening': {
+      post: {
+        tags: ['Stock'],
+        summary: 'Add Opening Stock',
+        description: 'Create a new stock batch (opening stock or purchase)',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                required: ['product', 'business_location', 'stock'],
+                properties: {
+                  product: { type: 'string', description: 'Product ID' },
+                  business_location: { type: 'string', description: 'Location ID' },
+                  supplier: { type: 'string', description: 'Supplier (Contact ID)' },
+                  stock: { type: 'number', example: 100 },
+                  unit_price: { type: 'number', description: 'Cost Price', example: 500 },
+                  default_selling_price: {
+                    type: 'number',
+                    description: 'Selling Price',
+                    example: 700,
+                  },
+                  lot_number: { type: 'string', description: 'Optional: Custom Batch/Lot Number' },
+                  serials: {
+                    type: 'array',
+                    items: { type: 'string' },
+                    description: 'List of IMEI/Serial numbers (Must match stock quantity)',
+                    example: ['IMEI123456789012345', 'IMEI987654321098765'],
+                  },
+                  manufacturing_date: { type: 'string', format: 'date' },
+                  expiry_date: { type: 'string', format: 'date' },
+                  group_prices: {
+                    type: 'object',
+                    description: 'Price Group Values',
+                    example: { price_group_id_1: 680, price_group_id_2: 650 },
+                  },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          '201': { description: 'Stock allocated successfully' },
+          '400': { $ref: '#/components/responses/ValidationError' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+        },
+      },
+    },
+    '/api/product-stock-price/{id}/price': {
+      patch: {
+        tags: ['Stock'],
+        summary: 'Update Stock Price & Details',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  unit_price: { type: 'number', description: 'Cost Price' },
+                  default_selling_price: { type: 'number', description: 'Selling Price' },
+                  group_prices: { type: 'object', description: 'Updated Group Prices' },
+                  stock: { type: 'number', description: 'Adjust Stock Quantity' },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          '200': { description: 'Stock updated successfully' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '404': { description: 'Stock entry not found' },
+        },
+      },
+    },
+    '/api/product-stock-price/{id}': {
+      delete: {
+        tags: ['Stock'],
+        summary: 'Delete Stock Entry',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        responses: {
+          '200': { description: 'Stock deleted successfully' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+          '404': { description: 'Stock not found' },
+          '409': { description: 'Cannot delete stock that has been sold' },
+        },
+      },
+    },
+
+    // ==================== CONTACTS MANAGEMENT ====================
+    '/api/contacts/list': {
+      get: {
+        tags: ['Contacts'],
+        summary: 'List contacts',
+        description: 'Get customers and suppliers with filters',
+        parameters: [
+          { name: 'page', in: 'query', schema: { type: 'integer', default: 1 } },
+          { name: 'limit', in: 'query', schema: { type: 'integer', default: 10, maximum: 100 } },
+          {
+            name: 'type',
+            in: 'query',
+            schema: { type: 'string', enum: ['customer', 'supplier', 'both'] },
+          },
+          { name: 'status', in: 'query', schema: { type: 'string', enum: ['active', 'inactive'] } },
+          {
+            name: 'search',
+            in: 'query',
+            schema: { type: 'string' },
+            description: 'Search by name, mobile, id',
+          },
+        ],
+        responses: {
+          '200': { description: 'List of contacts' },
+          '401': { $ref: '#/components/responses/UnauthorizedError' },
+        },
+      },
+    },
+    '/api/contacts/create': {
+      post: {
+        tags: ['Contacts'],
+        summary: 'Create Contact',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['first_name', 'contact_type'],
+                properties: {
+                  contact_type: {
+                    type: 'string',
+                    enum: ['customer', 'supplier'],
+                    default: 'customer',
+                  },
+                  first_name: { type: 'string' },
+                  last_name: { type: 'string' },
+                  mobile: { type: 'string' },
+                  email: { type: 'string', format: 'email' },
+                  city: { type: 'string' },
+                  state: { type: 'string' },
+                  address_line_1: { type: 'string' },
+                  credit_limit: { type: 'number' },
+                  opening_balance: { type: 'number' },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          '201': { description: 'Contact created successfully' },
+          '400': { $ref: '#/components/responses/ValidationError' },
+          '409': { description: 'Mobile number already exists' },
+        },
+      },
+    },
+    '/api/contacts/{id}': {
+      get: {
+        tags: ['Contacts'],
+        summary: 'Get Contact Details',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        responses: {
+          '200': { description: 'Contact details' },
+          '404': { description: 'Contact not found' },
+        },
+      },
+      patch: {
+        tags: ['Contacts'],
+        summary: 'Update Contact',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  first_name: { type: 'string' },
+                  last_name: { type: 'string' },
+                  mobile: { type: 'string' },
+                  email: { type: 'string' },
+                  is_active: { type: 'boolean' },
+                  credit_limit: { type: 'number' },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          '200': { description: 'Contact updated successfully' },
+          '404': { description: 'Contact not found' },
+        },
+      },
+      delete: {
+        tags: ['Contacts'],
+        summary: 'Delete Contact',
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        responses: {
+          '200': { description: 'Contact deleted successfully' },
+          '404': { description: 'Contact not found' },
         },
       },
     },

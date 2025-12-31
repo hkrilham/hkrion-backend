@@ -582,11 +582,14 @@ export interface Warranty {
  */
 export interface Contact {
   id: number;
+  /**
+   * Auto-generated ID (CUS-XXXX / SUP-XXXX)
+   */
   contact_id: string;
-  contact_type?: ('customer' | 'supplier' | 'both') | null;
+  contact_type: 'customer' | 'supplier' | 'both';
   customer_type?: ('individual' | 'business') | null;
   prefix?: string | null;
-  first_name?: string | null;
+  first_name: string;
   last_name?: string | null;
   business_name?: string | null;
   email?: string | null;
@@ -609,6 +612,7 @@ export interface Contact {
   landmark?: string | null;
   business?: (number | null) | Business;
   is_active?: boolean | null;
+  created_by?: (number | null) | User;
   updatedAt: string;
   createdAt: string;
 }
@@ -1408,14 +1412,25 @@ export interface Prefix {
  */
 export interface ProductImeiSerial {
   id: number;
-  business?: (number | null) | Business;
   product: number | Product;
-  product_stock_price?: (number | null) | ProductStockPrice;
-  type?: string | null;
-  imei?: string | null;
-  serial?: string | null;
-  is_sold?: boolean | null;
-  business_location?: (number | null) | BusinessLocation;
+  /**
+   * Linked to specific stock entry
+   */
+  stock_batch: number | ProductStockPrice;
+  serial_number: string;
+  status: 'available' | 'sold' | 'returned' | 'defective' | 'transferred';
+  /**
+   * Supplier who provided this unit
+   */
+  supplier?: (number | null) | Contact;
+  business_location: number | BusinessLocation;
+  business: number | Business;
+  sold_at?: string | null;
+  /**
+   * Invoice number if sold
+   */
+  invoice_id?: string | null;
+  notes?: string | null;
   created_by?: (number | null) | User;
   updatedAt: string;
   createdAt: string;
@@ -1426,18 +1441,35 @@ export interface ProductImeiSerial {
  */
 export interface ProductStockPrice {
   id: number;
-  business?: (number | null) | Business;
+  business: number | Business;
   product: number | Product;
   supplier?: (number | null) | Contact;
+  business_location: number | BusinessLocation;
+  lot_number?: string | null;
+  /**
+   * Current quantity available
+   */
+  stock?: number | null;
+  alert_quantity?: number | null;
   unit_price?: number | null;
   default_selling_price?: number | null;
-  stock?: number | null;
+  /**
+   * Store different prices for price groups e.g., Wholesale, Retail
+   */
+  group_prices?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   sold?: number | null;
-  status?: string | null;
-  note?: string | null;
-  business_location?: (number | null) | BusinessLocation;
+  status?: ('active' | 'inactive' | 'expired') | null;
   manufacturing_date?: string | null;
   expiry_date?: string | null;
+  note?: string | null;
   created_by?: (number | null) | User;
   updatedAt: string;
   createdAt: string;
@@ -2924,6 +2956,7 @@ export interface ContactsSelect<T extends boolean = true> {
   landmark?: T;
   business?: T;
   is_active?: T;
+  created_by?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -3599,14 +3632,16 @@ export interface PrefixesSelect<T extends boolean = true> {
  * via the `definition` "product-imei-serial_select".
  */
 export interface ProductImeiSerialSelect<T extends boolean = true> {
-  business?: T;
   product?: T;
-  product_stock_price?: T;
-  type?: T;
-  imei?: T;
-  serial?: T;
-  is_sold?: T;
+  stock_batch?: T;
+  serial_number?: T;
+  status?: T;
+  supplier?: T;
   business_location?: T;
+  business?: T;
+  sold_at?: T;
+  invoice_id?: T;
+  notes?: T;
   created_by?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -3630,15 +3665,18 @@ export interface ProductStockPriceSelect<T extends boolean = true> {
   business?: T;
   product?: T;
   supplier?: T;
+  business_location?: T;
+  lot_number?: T;
+  stock?: T;
+  alert_quantity?: T;
   unit_price?: T;
   default_selling_price?: T;
-  stock?: T;
+  group_prices?: T;
   sold?: T;
   status?: T;
-  note?: T;
-  business_location?: T;
   manufacturing_date?: T;
   expiry_date?: T;
+  note?: T;
   created_by?: T;
   updatedAt?: T;
   createdAt?: T;

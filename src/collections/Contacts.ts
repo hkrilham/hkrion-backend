@@ -1,6 +1,14 @@
 import type { CollectionConfig } from 'payload'
 import { filterByBusiness } from '../hooks/filterByBusiness'
 import { setBusinessOnCreate } from '../hooks/setBusinessOnCreate'
+import { disableRestApiAccess } from '../hooks/disableRestApiAccess'
+import {
+  listContacts,
+  createContact,
+  getContact,
+  updateContact,
+  deleteContact,
+} from '../endpoints/contact'
 
 export const Contacts: CollectionConfig = {
   slug: 'contacts',
@@ -9,11 +17,18 @@ export const Contacts: CollectionConfig = {
     group: 'CRM',
   },
   access: {
-    read: filterByBusiness,
-    update: filterByBusiness,
-    delete: filterByBusiness,
-    create: ({ req }) => !!req.user,
+    read: disableRestApiAccess,
+    update: disableRestApiAccess,
+    delete: disableRestApiAccess,
+    create: disableRestApiAccess,
   },
+  endpoints: [
+    { path: '/list', method: 'get', handler: listContacts },
+    { path: '/create', method: 'post', handler: createContact },
+    { path: '/:id', method: 'get', handler: getContact },
+    { path: '/:id', method: 'patch', handler: updateContact },
+    { path: '/:id', method: 'delete', handler: deleteContact },
+  ],
   hooks: {
     beforeChange: [setBusinessOnCreate],
   },
@@ -22,6 +37,9 @@ export const Contacts: CollectionConfig = {
       name: 'contact_id',
       type: 'text',
       required: true,
+      admin: {
+        description: 'Auto-generated ID (CUS-XXXX / SUP-XXXX)',
+      },
     },
     {
       name: 'contact_type',
@@ -32,6 +50,8 @@ export const Contacts: CollectionConfig = {
         { label: 'Both', value: 'both' },
       ],
       defaultValue: 'customer',
+      required: true,
+      index: true,
     },
     {
       name: 'customer_type',
@@ -49,6 +69,7 @@ export const Contacts: CollectionConfig = {
     {
       name: 'first_name',
       type: 'text',
+      required: true,
     },
     {
       name: 'last_name',
@@ -65,6 +86,7 @@ export const Contacts: CollectionConfig = {
     {
       name: 'mobile',
       type: 'text',
+      index: true,
     },
     {
       name: 'alternate_contact_number',
@@ -140,6 +162,7 @@ export const Contacts: CollectionConfig = {
       type: 'relationship',
       relationTo: 'businesses',
       required: true,
+      index: true, // For frequent business filtering
       admin: {
         condition: (data, siblingData, { user }) => {
           return user?.roles?.includes('admin') || false
@@ -150,6 +173,11 @@ export const Contacts: CollectionConfig = {
       name: 'is_active',
       type: 'checkbox',
       defaultValue: true,
+    },
+    {
+      name: 'created_by',
+      type: 'relationship',
+      relationTo: 'users',
     },
   ],
 }
